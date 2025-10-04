@@ -1,0 +1,67 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Connect Instagram - Provokely{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card border-0 bg-gradient-dark">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <div class="icon-lg mb-3 text-danger">
+              <i class="bi bi-instagram"></i>
+            </div>
+            <h1 class="h3 fw-bold mb-2">Connect Your Instagram</h1>
+            <p class="text-white-50">Connect your Instagram account to start monitoring posts and comments for engagement opportunities</p>
+          </div>
+
+          <div class="text-center">
+            <div class="mb-4">
+              <h4 class="h5 fw-bold mb-3">Connect with Instagram</h4>
+              <p class="text-white-50 mb-4">
+                Click the button below to authorize Provokely to access your Instagram account. 
+                You'll be redirected to Instagram to log in and grant permissions.
+              </p>
+              
+              <!-- Development Notice -->
+              <div class="alert alert-warning text-start">
+                <h6 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i>Development Setup Required</h6>
+                <p class="mb-2">To use Instagram OAuth, you need to:</p>
+                <ol class="mb-2 small">
+                  <li>Create an Instagram app at <a href="https://developers.facebook.com/" target="_blank" class="text-warning">Facebook Developers</a></li>
+                  <li>Add "Instagram Basic Display" product</li>
+                  <li>Update credentials in <code>config/settings.py</code></li>
+                  <li>Configure redirect URI: <code>http://localhost:8000/dashboard/instagram/callback/</code></li>
+                </ol>
+                <p class="mb-0 small">See <code>INSTAGRAM_SETUP.md</code> for detailed instructions.</p>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <a href="{% url 'dashboard:instagram:connect' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-instagram me-2"></i>Connect with Instagram
+              </a>
+              <a href="{% url 'dashboard:home' %}" class="btn btn-outline-light">
+                Cancel
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-4 p-3 bg-dark rounded">
+            <h5 class="h6 fw-bold mb-2">What happens next?</h5>
+            <ul class="list-unstyled small text-white-50 mb-0">
+              <li><i class="bi bi-check-circle me-2 text-success"></i>We'll monitor your posts for new comments</li>
+              <li><i class="bi bi-check-circle me-2 text-success"></i>AI will analyze comment sentiment in real-time</li>
+              <li><i class="bi bi-check-circle me-2 text-success"></i>Get notified when hate comments need your attention</li>
+              <li><i class="bi bi-check-circle me-2 text-success"></i>Auto-respond based on your settings</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

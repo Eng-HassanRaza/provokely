@@ -1,0 +1,9 @@
+/* AOS helpers and custom animations */
+.fade-up{ opacity:0; transform:translateY(10px); animation:fadeUp .6s ease forwards; }
+@keyframes fadeUp{ to{ opacity:1; transform:none; } }
+
+/* Subtle particle-like background effect */
+.hero-bg::after{ content:""; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size:24px 24px; mask-image:linear-gradient(180deg, #000 0%, transparent 80%); opacity:.25; }
+
+/* Glow on hover utility */
+.glow-hover:hover{ box-shadow:0 0 24px rgba(255,107,53,.35); } 

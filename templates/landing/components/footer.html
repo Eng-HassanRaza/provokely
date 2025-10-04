@@ -1,0 +1,56 @@
+{% load static %}
+<footer class="pt-5 pb-4 text-light" style="background-color:#0F172A;">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-md-6 col-lg-3">
+        <h6 class="text-uppercase text-secondary">Product</h6>
+        <ul class="list-unstyled mt-3">
+          <li><a class="footer-link" href="#features">Features</a></li>
+          <li><a class="footer-link" href="#pricing">Pricing</a></li>
+          <li><a class="footer-link" href="#how-it-works">How It Works</a></li>
+          <li><a class="footer-link" href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <h6 class="text-uppercase text-secondary">Company</h6>
+        <ul class="list-unstyled mt-3">
+          <li><a class="footer-link" href="#about">About Us</a></li>
+          <li><a class="footer-link" href="#blog">Blog</a></li>
+          <li><a class="footer-link" href="#contact">Contact</a></li>
+          <li><a class="footer-link" href="#careers">Careers</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <h6 class="text-uppercase text-secondary">Legal</h6>
+        <ul class="list-unstyled mt-3">
+          <li><a class="footer-link" href="#privacy">Privacy Policy</a></li>
+          <li><a class="footer-link" href="#terms">Terms of Service</a></li>
+          <li><a class="footer-link" href="#refund">Refund Policy</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <h6 class="text-uppercase text-secondary">Get in Touch</h6>
+        <form id="contact-form" class="mt-3 footer-contact" method="post" action="{% url 'contact_submit' %}" novalidate>
+          {% csrf_token %}
+          <div class="mb-2">
+            <label for="contact-name" class="form-label visually-hidden">Name</label>
+            <input id="contact-name" name="name" type="text" class="form-control" placeholder="Your name" required>
+          </div>
+          <div class="mb-2">
+            <label for="contact-email" class="form-label visually-hidden">Email</label>
+            <input id="contact-email" name="email" type="email" class="form-control" placeholder="Your email" required>
+          </div>
+          <div class="mb-2">
+            <label for="contact-message" class="form-label visually-hidden">Message</label>
+            <textarea id="contact-message" name="message" rows="2" class="form-control" placeholder="How can we help?" required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Send Message</button>
+          <div class="form-text text-danger d-none" id="contact-error"></div>
+          <div class="form-text text-success d-none" id="contact-success"></div>
+        </form>
+      </div>
+    </div>
+    <hr class="border-secondary my-4">
+    <div class="text-center small text-secondary">© 2025 Provokely. All rights reserved.</div>
+  </div>
+</footer> 

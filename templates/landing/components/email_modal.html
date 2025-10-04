@@ -1,0 +1,25 @@
+{% load static %}
+<div class="modal fade" id="emailModal" tabindex="-1" aria-hidden="true" aria-labelledby="emailModalLabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <button type="button" class="btn-close position-absolute end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body p-4">
+        <div class="text-center">
+          <h5 id="emailModalLabel" class="fw-bold">Get Our Free Controversial Comment Templates Guide</h5>
+          <p class="text-muted">Learn the exact psychology triggers that turn passive viewers into active commenters</p>
+        </div>
+        <form id="email-modal-form" method="post" action="{% url 'lead_capture' %}" novalidate>
+          {% csrf_token %}
+          <label for="email-modal-input" class="form-label visually-hidden">Email</label>
+          <div class="input-group mb-2">
+            <input id="email-modal-input" name="email" type="email" class="form-control" placeholder="Enter your email" required>
+            <button class="btn btn-primary" type="submit">Send Me The Templates</button>
+          </div>
+          <div class="form-text text-danger d-none" id="email-modal-error"></div>
+          <div class="form-text text-success d-none" id="email-modal-success"></div>
+        </form>
+        <p class="small text-center text-muted mt-2">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+</div> 

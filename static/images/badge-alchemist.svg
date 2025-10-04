@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-label="Engagement Alchemist Badge">
+	<defs>
+		<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0%" stop-color="#0F172A"/>
+			<stop offset="100%" stop-color="#1E293B"/>
+		</linearGradient>
+		<linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+			<stop offset="0%" stop-color="#FFD166"/>
+			<stop offset="100%" stop-color="#FF9F1C"/>
+		</linearGradient>
+		<linearGradient id="potion" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0%" stop-color="#8B5CF6"/>
+			<stop offset="100%" stop-color="#EC4899"/>
+		</linearGradient>
+		<style>
+			.t{ fill:url(#gold); font:700 30px 'Space Grotesk', sans-serif; letter-spacing:1px }
+			.s{ fill:#e5e7eb; font:600 16px 'Inter', sans-serif }
+		</style>
+	</defs>
+	<circle cx="300" cy="300" r="280" fill="url(#bg)" stroke="url(#gold)" stroke-width="6"/>
+	<g transform="translate(180,160)">
+		<path d="M120 0l60 120a30 30 0 01-27 44H87a30 30 0 01-27-44L120 0z" fill="url(#potion)"/>
+		<rect x="85" y="160" width="70" height="22" rx="11" fill="url(#gold)"/>
+		<circle cx="120" cy="140" r="8" fill="#fff" opacity=".9"/>
+	</g>
+	<text x="300" y="360" text-anchor="middle" class="t">ENGAGEMENT ALCHEMIST</text>
+	<text x="300" y="395" text-anchor="middle" class="s">Certified by Provokely Academy</text>
+</svg> 

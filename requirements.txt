@@ -1,0 +1,44 @@
+# Django
+Django>=5.0.6
+
+# Django REST Framework
+djangorestframework>=3.14.0
+
+# CORS Headers for mobile app support
+django-cors-headers>=4.3.0
+
+# Filtering support
+django-filter>=23.5
+
+# API Documentation
+drf-yasg>=1.21.7
+
+# Machine Learning / AI
+# transformers>=4.36.0  # For sentiment analysis - uncomment when ready
+# torch>=2.1.0  # For sentiment analysis - uncomment when ready
+
+# HTTP Requests
+requests>=2.31.0
+pyfcm>=1.5.4
+
+# Background Tasks
+# celery>=5.3.0  # Uncomment when implementing background tasks
+# redis>=5.0.0  # Uncomment when implementing caching/celery
+
+# Database
+# psycopg2-binary>=2.9.9  # For PostgreSQL - uncomment for production
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# OpenAI SDK
+openai>=1.37.0
+
+# Testing
+pytest>=7.4.0
+pytest-django>=4.5.2
+
+# Code quality
+# black>=23.12.0  # Code formatter
+# flake8>=6.1.0  # Linter
+# isort>=5.13.0  # Import sorter

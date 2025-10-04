@@ -1,0 +1,61 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Notifications - Provokely{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 fw-bold mb-0">Notifications</h1>
+    {% if notifications_unread_count and notifications_unread_count > 0 %}
+    <form method="post">
+      {% csrf_token %}
+      {% for n in notifications %}
+        {% if not n.is_read %}
+        <input type="hidden" name="ids" value="{{ n.id }}">
+        {% endif %}
+      {% endfor %}
+      <button class="btn btn-outline-light btn-sm">Mark all read</button>
+    </form>
+    {% endif %}
+  </div>
+
+  {% if notifications %}
+  <div class="list-group list-group-flush">
+    {% for n in notifications %}
+    <div class="list-group-item bg-transparent border-secondary">
+      <div class="d-flex justify-content-between">
+        <div class="me-3">
+          <div class="small text-white-50">{{ n.created_at|timesince }} ago</div>
+          <div>
+            <span class="badge bg-{% if n.sentiment_label == 'positive' %}success{% elif n.sentiment_label == 'negative' %}warning{% elif n.sentiment_label == 'hate' %}danger{% else %}secondary{% endif %}">{{ n.sentiment_label|title }}</span>
+            {% if n.needs_approval %}<span class="badge bg-warning text-dark ms-1">Needs Approval</span>{% endif %}
+            {% if not n.is_read %}<span class="badge bg-primary ms-1">New</span>{% endif %}
+          </div>
+          <div class="mt-2">{{ n.comment_text|default:'(no text)' }}</div>
+        </div>
+        <div class="text-end">
+          {% if n.needs_approval and n.ai_response %}
+            <form method="post" action="{% url 'dashboard:approve_ai_reply' %}">
+              {% csrf_token %}
+              <input type="hidden" name="comment_id" value="{{ n.external_id }}">
+              <input type="hidden" name="media_id" value="{{ n.media_id }}">
+              <div class="small text-white-50">AI reply (edit before post)</div>
+              <textarea name="text" class="form-control form-control-sm bg-dark text-light" rows="2">{{ n.ai_response }}</textarea>
+              <button class="btn btn-sm btn-warning mt-2">Approve & Post</button>
+            </form>
+          {% else %}
+            <div class="small text-white-50">Replied</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <div class="alert alert-secondary">No notifications yet.</div>
+  {% endif %}
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,45 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Instagram Webhooks - Provokely{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 fw-bold mb-0">Instagram Webhooks</h1>
+    <a href="{% url 'dashboard:instagram:settings' %}" class="btn btn-outline-light btn-sm">Back to Settings</a>
+  </div>
+
+  {% if webhooks %}
+  <div class="list-group list-group-flush">
+    {% for w in webhooks %}
+    <div class="list-group-item bg-transparent border-secondary">
+      <div class="d-flex justify-content-between">
+        <div class="me-3">
+          <div class="small text-white-50">Event</div>
+          <div class="fw-semibold">{{ w.event_type }}</div>
+          <div class="small text-white-50 mt-1">Created {{ w.created_at|timesince }} ago</div>
+        </div>
+        <div class="flex-grow-1">
+          <div class="small text-white-50">Payload</div>
+          <pre class="bg-dark text-light p-2 small" style="max-height: 200px; overflow:auto;">{{ w.payload|json_script:w.id }}{{ w.payload }}</pre>
+        </div>
+        <div class="text-end">
+          {% if w.processed %}
+            <span class="badge bg-success">Processed</span>
+          {% else %}
+            <a href="{% url 'dashboard:instagram:webhook_mark_processed' w.id %}" class="btn btn-sm btn-warning">Mark processed</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <div class="alert alert-secondary">No webhook events yet. Add a new Instagram comment to trigger one.</div>
+  {% endif %}
+</div>
+{% endblock %}
+
+
+
