@@ -71,6 +71,110 @@ or
 }
 ```
 
+### 2b) Connect Instagram (Native Facebook SDK - Recommended for Mobile)
+
+**For better UX, use Facebook SDK native authentication instead of in-app browser.**
+
+- Use Facebook SDK to get access token
+  - iOS: Use Facebook Login SDK
+  - Android: Use Facebook Login SDK
+  - User authenticates in Facebook/Instagram app (one-tap if already logged in)
+  - SDK returns access token directly to your app
+
+- Send token to backend
+  - POST `/api/v1/instagram/accounts/mobile/facebook-token`
+  - Headers: `Authorization: Token <your_user_token>`
+  - Body:
+```json
+{
+  "access_token": "EAALZBszT4wXoBOz...",
+  "platform": "ios"
+}
+```
+
+- Success Response (200):
+```json
+{
+  "success": true,
+  "data": {
+    "connected": true,
+    "ig_user": {
+      "id": "17841409228847394",
+      "username": "hassanjutt__"
+    }
+  },
+  "message": "Instagram account connected successfully"
+}
+```
+
+- Error Responses (400):
+
+**Missing Token:**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "MISSING_TOKEN",
+    "message": "access_token is required",
+    "details": {}
+  }
+}
+```
+
+**Invalid Token:**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_TOKEN",
+    "message": "Facebook access token is invalid or expired",
+    "details": {}
+  }
+}
+```
+
+**Wrong App:**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "WRONG_APP",
+    "message": "Token was not issued for this application",
+    "details": {}
+  }
+}
+```
+
+**No Facebook Pages:**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "NO_PAGES",
+    "message": "No Facebook pages found. User must have a Facebook page connected.",
+    "details": {}
+  }
+}
+```
+
+**No Instagram Account:**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "NO_INSTAGRAM",
+    "message": "No Instagram Business Account linked to Facebook page",
+    "details": {}
+  }
+}
+```
+
+**Notes:**
+- This flow is simpler than browser OAuth (no state management, no callbacks)
+- Better UX: opens Facebook/Instagram app directly if installed
+- User already logged in → one-tap authentication
+- Backend validates token and links Instagram account automatically
+
 ### 3) Settings (Notifications + Auto/Manual Replies)
 
 - Get

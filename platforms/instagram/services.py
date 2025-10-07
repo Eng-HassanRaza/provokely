@@ -218,6 +218,42 @@ class InstagramService(PlatformServiceInterface):
                 print(f"Permissions validation failed: {e}")
             return []
     
+    def validate_facebook_token(self, access_token: str) -> dict:
+        """
+        Validate Facebook access token using Debug Token API.
+        Used for mobile SDK flow where we receive token directly.
+        
+        Args:
+            access_token: Facebook access token to validate
+        
+        Returns:
+            dict: Token data including is_valid, app_id, expires_at, user_id, scopes
+        
+        Raises:
+            PlatformAPIError: If token validation fails
+        """
+        url = "https://graph.facebook.com/debug_token"
+        app_token = f"{settings.INSTAGRAM_CLIENT_ID}|{settings.INSTAGRAM_CLIENT_SECRET}"
+        params = {
+            'input_token': access_token,
+            'access_token': app_token
+        }
+        
+        try:
+            response = requests.get(url, params=params, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            token_data = data.get('data', {})
+            
+            if settings.DEBUG:
+                print(f"Token validation: is_valid={token_data.get('is_valid')}, app_id={token_data.get('app_id')}")
+            
+            return token_data
+        except requests.Timeout:
+            raise PlatformAPIError("Facebook token validation timed out. Please try again.")
+        except requests.RequestException as e:
+            raise PlatformAPIError(f"Failed to validate Facebook token: {str(e)}")
+    
     def get_user_profile(self, access_token: str):
         """
         Get Instagram business account information via Facebook Pages

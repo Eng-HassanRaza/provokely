@@ -81,4 +81,5 @@ dump.rdb
 .cursor/
 .cursorignore
 .env
+*.md
 

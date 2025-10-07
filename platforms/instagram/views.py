@@ -13,6 +13,7 @@ from platforms.instagram.serializers import (
     InstagramWebhookSerializer
 )
 from shared.api_responses import success_response, error_response
+from shared.exceptions import PlatformAPIError
 from django.utils import timezone
 from platforms.instagram.models import InstagramAccount
 from platforms.instagram.services import InstagramService
@@ -244,6 +245,157 @@ class InstagramAccountViewSet(viewsets.ModelViewSet):
         except InstagramAccount.DoesNotExist:
             data = {'connected': False}
         return success_response(data, 'Status fetched')
+
+    @action(detail=False, methods=['post'], url_path='mobile/facebook-token')
+    def facebook_token_auth(self, request):
+        """
+        Accept Facebook access token from mobile SDK and link Instagram account.
+        This endpoint is for native mobile apps using Facebook SDK OAuth.
+        
+        POST /api/v1/instagram/accounts/mobile/facebook-token/
+        
+        Request Body:
+        {
+            "access_token": "EAALZBszT4wXoBOz...",
+            "platform": "ios"  // optional: "ios" or "android"
+        }
+        
+        Success Response:
+        {
+            "success": true,
+            "data": {
+                "connected": true,
+                "ig_user": {
+                    "id": "17841409228847394",
+                    "username": "hassanjutt__"
+                }
+            },
+            "message": "Instagram account connected successfully"
+        }
+        """
+        # Extract and validate input
+        access_token = request.data.get('access_token')
+        platform = request.data.get('platform', 'unknown')
+        
+        if not access_token:
+            return error_response(
+                message="access_token is required",
+                code="MISSING_TOKEN",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            service = InstagramService()
+            
+            # Step 1: Validate token using Debug Token API
+            try:
+                token_data = service.validate_facebook_token(access_token)
+                
+                if not token_data.get('is_valid'):
+                    return error_response(
+                        message="Facebook access token is invalid or expired",
+                        code="INVALID_TOKEN",
+                        status_code=status.HTTP_400_BAD_REQUEST
+                    )
+                
+                # Verify token was issued for our app
+                if str(token_data.get('app_id')) != str(settings.INSTAGRAM_CLIENT_ID):
+                    return error_response(
+                        message="Token was not issued for this application",
+                        code="WRONG_APP",
+                        status_code=status.HTTP_400_BAD_REQUEST
+                    )
+                    
+            except PlatformAPIError:
+                return error_response(
+                    message="Facebook access token is invalid or expired",
+                    code="INVALID_TOKEN",
+                    status_code=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Step 2: Exchange for long-lived token (recommended for 60-day validity)
+            try:
+                long_lived = service.get_long_lived_token(access_token)
+                access_token = long_lived.get('access_token', access_token)
+                expires_in = long_lived.get('expires_in')
+            except Exception:
+                # Continue with short-lived token if exchange fails
+                expires_in = None
+                if 'expires_at' in token_data:
+                    # Calculate expires_in from expires_at timestamp
+                    import time
+                    expires_in = max(0, token_data['expires_at'] - int(time.time()))
+            
+            # Steps 3-5: Get Instagram account via Facebook Pages
+            # This method already handles: get pages, extract page token, get IG account
+            try:
+                profile = service.get_user_profile(access_token)
+            except PlatformAPIError as e:
+                error_msg = str(e)
+                
+                # Map errors to specific codes
+                if 'No Instagram business account found' in error_msg:
+                    return error_response(
+                        message="No Instagram Business Account linked to Facebook page",
+                        code="NO_INSTAGRAM",
+                        status_code=status.HTTP_400_BAD_REQUEST
+                    )
+                elif 'No Facebook pages' in error_msg or 'linked to Facebook Pages' in error_msg:
+                    return error_response(
+                        message="No Facebook pages found. User must have a Facebook page connected.",
+                        code="NO_PAGES",
+                        status_code=status.HTTP_400_BAD_REQUEST
+                    )
+                elif 'not accessible' in error_msg:
+                    return error_response(
+                        message="No Instagram Business Account linked to Facebook page",
+                        code="NO_INSTAGRAM",
+                        status_code=status.HTTP_400_BAD_REQUEST
+                    )
+                else:
+                    return error_response(
+                        message=error_msg,
+                        code="API_ERROR",
+                        status_code=status.HTTP_400_BAD_REQUEST
+                    )
+            
+            # Step 6: Save to database
+            account, created = InstagramAccount.objects.update_or_create(
+                user=request.user,
+                instagram_user_id=profile['id'],
+                defaults={
+                    'username': profile.get('username', ''),
+                    'access_token': access_token,  # This is the page access token from get_user_profile
+                    'expires_in': expires_in,
+                    'token_created_at': timezone.now(),
+                    'account_type': profile.get('account_type', 'BUSINESS'),
+                    'media_count': profile.get('media_count', 0),
+                    'followers_count': profile.get('followers_count', 0),
+                    'following_count': profile.get('following_count', 0),
+                    'is_active': True,
+                }
+            )
+            
+            # Step 7: Return success response
+            return success_response(
+                data={
+                    'connected': True,
+                    'ig_user': {
+                        'id': profile['id'],
+                        'username': profile.get('username', '')
+                    }
+                },
+                message="Instagram account connected successfully",
+                status_code=status.HTTP_200_OK
+            )
+            
+        except Exception as e:
+            # Catch any unexpected errors
+            return error_response(
+                message=f"Server error: {str(e)}",
+                code="SERVER_ERROR",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 def mobile_oauth_callback(request):
