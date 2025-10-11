@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from django.conf import settings
 from api_hosted.models import APIUser, UsageLog
+import stripe
+from stripe import StripeError, SignatureVerificationError
 
 
 class JWTService:
@@ -170,4 +172,160 @@ class AIProxyService:
         api_user.total_tokens_used += tokens_used
         api_user.total_cost += Decimal(str(cost))
         api_user.save()
+
+
+class StripeService:
+    """Handle Stripe payment operations"""
+    
+    def __init__(self):
+        self.stripe_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
+        if self.stripe_key:
+            stripe.api_key = self.stripe_key
+        
+        self.monthly_price_id = getattr(settings, 'STRIPE_MONTHLY_PRICE_ID', None)
+        self.annual_price_id = getattr(settings, 'STRIPE_ANNUAL_PRICE_ID', None)
+        self.webhook_secret = getattr(settings, 'STRIPE_WEBHOOK_SECRET', None)
+    
+    def create_checkout_session(self, email, plan='monthly', success_url=None, cancel_url=None):
+        """
+        Create Stripe checkout session
+        
+        Args:
+            email: Customer email
+            plan: 'monthly' or 'annual'
+            success_url: Redirect URL on success
+            cancel_url: Redirect URL on cancel
+        
+        Returns:
+            dict: Session data with session_id and url
+        """
+        if not self.stripe_key:
+            raise ValueError('STRIPE_SECRET_KEY not configured')
+        
+        price_id = self.annual_price_id if plan == 'annual' else self.monthly_price_id
+        
+        if not price_id:
+            raise ValueError(f'Stripe price ID not configured for {plan} plan')
+        
+        # Default URLs if not provided
+        if not success_url:
+            success_url = 'https://provokely.com/success?session_id={CHECKOUT_SESSION_ID}'
+        if not cancel_url:
+            cancel_url = 'https://provokely.com/cancel'
+        
+        try:
+            session = stripe.checkout.Session.create(
+                customer_email=email,
+                payment_method_types=['card'],
+                line_items=[{
+                    'price': price_id,
+                    'quantity': 1,
+                }],
+                mode='subscription',
+                success_url=success_url,
+                cancel_url=cancel_url,
+                metadata={
+                    'userEmail': email,
+                    'plan': plan
+                }
+            )
+            
+            return {
+                'sessionId': session.id,
+                'url': session.url
+            }
+        except StripeError as e:
+            raise Exception(f'Stripe error: {str(e)}')
+    
+    def verify_webhook_signature(self, payload, signature):
+        """
+        Verify Stripe webhook signature
+        
+        Args:
+            payload: Raw request body
+            signature: Stripe signature header
+        
+        Returns:
+            Event object if valid
+        
+        Raises:
+            ValueError: If signature invalid
+        """
+        if not self.webhook_secret:
+            raise ValueError('STRIPE_WEBHOOK_SECRET not configured')
+        
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, signature, self.webhook_secret
+            )
+            return event
+        except ValueError as e:
+            raise ValueError(f'Invalid payload: {str(e)}')
+        except SignatureVerificationError as e:
+            raise ValueError(f'Invalid signature: {str(e)}')
+    
+    def handle_checkout_completed(self, session):
+        """
+        Handle successful checkout
+        
+        Args:
+            session: Stripe checkout session object
+        """
+        customer_email = session.get('customer_email') or session.get('metadata', {}).get('userEmail')
+        subscription_id = session.get('subscription')
+        customer_id = session.get('customer')
+        
+        if not customer_email:
+            raise ValueError('No customer email found in session')
+        
+        try:
+            api_user = APIUser.objects.get(email=customer_email)
+            api_user.is_pro = True
+            api_user.subscription_id = subscription_id
+            api_user.stripe_customer_id = customer_id
+            api_user.save()
+            
+            return api_user
+        except APIUser.DoesNotExist:
+            raise ValueError(f'User not found: {customer_email}')
+    
+    def handle_subscription_deleted(self, subscription):
+        """
+        Handle subscription cancellation
+        
+        Args:
+            subscription: Stripe subscription object
+        """
+        subscription_id = subscription.get('id')
+        
+        if not subscription_id:
+            raise ValueError('No subscription ID found')
+        
+        try:
+            api_user = APIUser.objects.get(subscription_id=subscription_id)
+            api_user.is_pro = False
+            api_user.save()
+            
+            return api_user
+        except APIUser.DoesNotExist:
+            raise ValueError(f'User not found with subscription: {subscription_id}')
+    
+    def get_subscription_status(self, email):
+        """
+        Get user's subscription status
+        
+        Args:
+            email: User email
+        
+        Returns:
+            dict: Subscription status with isPro and projectsRemaining
+        """
+        try:
+            api_user = APIUser.objects.get(email=email)
+            return {
+                'isPro': api_user.is_pro,
+                'projectsRemaining': api_user.projects_remaining
+            }
+        except APIUser.DoesNotExist:
+            raise ValueError(f'User not found: {email}')
 

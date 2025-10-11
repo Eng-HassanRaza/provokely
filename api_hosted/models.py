@@ -12,6 +12,11 @@ class APIUser(models.Model):
     total_tokens_used = models.IntegerField(default=0)
     total_cost = models.DecimalField(max_digits=10, decimal_places=4, default=0)
     
+    is_pro = models.BooleanField(default=False, help_text="Pro subscription status")
+    projects_remaining = models.IntegerField(default=3, help_text="Number of free validations remaining")
+    subscription_id = models.CharField(max_length=255, null=True, blank=True, help_text="Stripe subscription ID")
+    stripe_customer_id = models.CharField(max_length=255, null=True, blank=True, help_text="Stripe customer ID")
+    
     class Meta:
         db_table = 'api_users'
         ordering = ['-created_at']

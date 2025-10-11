@@ -1,5 +1,6 @@
 import jwt as pyjwt
 from django.shortcuts import render
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
@@ -11,8 +12,11 @@ from api_hosted.serializers import (
     AIRequestSerializer,
     AIResponseSerializer
 )
-from api_hosted.services import JWTService, AIProxyService
+from api_hosted.services import JWTService, AIProxyService, StripeService
 from api_hosted.authentication import JWTAuthentication
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+import json
 
 
 class AuthAPIView(APIView):
@@ -50,10 +54,12 @@ class AuthAPIView(APIView):
             api_user.auth_token = auth_token
             api_user.save()
             
-            # Prepare response
+            # Prepare response with subscription info
             response_data = {
                 'authToken': auth_token,
                 'userId': api_user.id,
+                'isPro': api_user.is_pro,
+                'projectsRemaining': api_user.projects_remaining,
                 'message': 'Authentication successful'
             }
             
@@ -87,6 +93,7 @@ class AIProxyView(APIView):
         prompt = serializer.validated_data['prompt']
         user_email = serializer.validated_data['userEmail']
         options = serializer.validated_data.get('options', {})
+        is_new_project = request.data.get('isNewProject', False)
         
         # Get authenticated user from request (set by JWTAuthentication)
         api_user = request.user
@@ -96,6 +103,18 @@ class AIProxyView(APIView):
             return Response({
                 'message': 'Email mismatch with authenticated user'
             }, status=status.HTTP_403_FORBIDDEN)
+        
+        # Check if user has projects remaining (unless Pro)
+        if not api_user.is_pro and is_new_project:
+            if api_user.projects_remaining <= 0:
+                return Response({
+                    'message': 'No free validations remaining. Please upgrade to Pro.',
+                    'error': 'LIMIT_REACHED'
+                }, status=status.HTTP_403_FORBIDDEN)
+            
+            # Decrement projects remaining
+            api_user.projects_remaining -= 1
+            api_user.save()
         
         try:
             # Initialize AI service
@@ -154,4 +173,138 @@ def saas_validator_privacy(request):
     Public page - no authentication required
     """
     return render(request, 'saas_validator_privacy.html')
+
+
+class CreateCheckoutSessionView(APIView):
+    """
+    POST /api/create-checkout-session
+    Create Stripe checkout session for subscription
+    """
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        email = request.data.get('email')
+        plan = request.data.get('plan', 'monthly')  # 'monthly' or 'annual'
+        success_url = request.data.get('success_url')
+        cancel_url = request.data.get('cancel_url')
+        
+        if not email:
+            return Response({
+                'message': 'Email is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        if plan not in ['monthly', 'annual']:
+            return Response({
+                'message': 'Invalid plan. Must be "monthly" or "annual"'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            stripe_service = StripeService()
+            session_data = stripe_service.create_checkout_session(
+                email=email,
+                plan=plan,
+                success_url=success_url,
+                cancel_url=cancel_url
+            )
+            
+            return Response(session_data, status=status.HTTP_200_OK)
+            
+        except ValueError as e:
+            return Response({
+                'message': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            return Response({
+                'message': 'Failed to create checkout session',
+                'error': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class StripeWebhookView(APIView):
+    """
+    POST /api/stripe-webhook
+    Handle Stripe webhook events
+    """
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    parser_classes = []  # Disable DRF parsers to get raw body
+    
+    def post(self, request):
+        payload = request.body
+        sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+        
+        if not sig_header:
+            return Response({
+                'message': 'Missing Stripe signature'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            stripe_service = StripeService()
+            event = stripe_service.verify_webhook_signature(payload, sig_header)
+            
+            event_type = event['type']
+            
+            if event_type == 'checkout.session.completed':
+                session = event['data']['object']
+                try:
+                    stripe_service.handle_checkout_completed(session)
+                    customer_email = session.get('customer_email') or session.get('customer_details', {}).get('email')
+                    print(f"✅ User upgraded to Pro: {customer_email}")
+                except Exception as e:
+                    print(f"⚠️  Error upgrading user: {str(e)}")
+            
+            elif event_type == 'customer.subscription.deleted':
+                subscription = event['data']['object']
+                try:
+                    stripe_service.handle_subscription_deleted(subscription)
+                    print(f"❌ Subscription cancelled: {subscription.get('id')}")
+                except Exception as e:
+                    print(f"⚠️  Error cancelling subscription: {str(e)}")
+            
+            return Response({'received': True}, status=status.HTTP_200_OK)
+            
+        except ValueError as e:
+            return Response({
+                'message': str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({
+                'message': 'Webhook processing failed',
+                'error': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class SubscriptionStatusView(APIView):
+    """
+    GET /api/subscription-status
+    Check user's subscription status
+    """
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        email = request.query_params.get('email')
+        
+        if not email:
+            return Response({
+                'message': 'Email parameter is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            stripe_service = StripeService()
+            status_data = stripe_service.get_subscription_status(email)
+            
+            return Response(status_data, status=status.HTTP_200_OK)
+            
+        except ValueError as e:
+            return Response({
+                'message': str(e)
+            }, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({
+                'message': 'Failed to fetch subscription status',
+                'error': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
