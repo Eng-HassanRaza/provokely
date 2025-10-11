@@ -175,6 +175,19 @@ def saas_validator_privacy(request):
     return render(request, 'saas_validator_privacy.html')
 
 
+def payment_success(request):
+    """Payment success page"""
+    session_id = request.GET.get('session_id', '')
+    return render(request, 'payment_success.html', {
+        'session_id': session_id
+    })
+
+
+def payment_cancel(request):
+    """Payment cancelled page"""
+    return render(request, 'payment_cancel.html')
+
+
 class CreateCheckoutSessionView(APIView):
     """
     POST /api/create-checkout-session

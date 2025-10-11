@@ -209,9 +209,9 @@ class StripeService:
         
         # Default URLs if not provided
         if not success_url:
-            success_url = 'https://provokely.com/success?session_id={CHECKOUT_SESSION_ID}'
+            success_url = 'https://provokely.com/api/success?session_id={CHECKOUT_SESSION_ID}'
         if not cancel_url:
-            cancel_url = 'https://provokely.com/cancel'
+            cancel_url = 'https://provokely.com/api/cancel'
         
         try:
             session = stripe.checkout.Session.create(
