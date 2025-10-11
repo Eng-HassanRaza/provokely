@@ -234,13 +234,34 @@ class InstagramAccountViewSet(viewsets.ModelViewSet):
     def mobile_status(self, request):
         """Return connection status for current user."""
         try:
-            account = InstagramAccount.objects.get(user=request.user)
+            account = InstagramAccount.objects.get(user=request.user, is_active=True)
+            
+            # Get user settings for notification preferences
+            try:
+                settings = UserSettings.objects.get(user=request.user)
+                notification_settings = {
+                    'auto_comment_enabled': settings.auto_comment_enabled,
+                    'notify_on_positive': settings.notify_on_positive,
+                    'notify_on_negative': settings.notify_on_negative,
+                    'notify_on_hate': settings.notify_on_hate,
+                    'notify_on_neutral': settings.notify_on_neutral,
+                    'notify_on_purchase_intent': settings.notify_on_purchase_intent,
+                    'notify_on_question': settings.notify_on_question,
+                }
+            except UserSettings.DoesNotExist:
+                notification_settings = {}
+            
             data = {
                 'connected': True,
                 'ig_user': {
                     'id': account.instagram_user_id,
                     'username': account.username,
-                }
+                    'profile_picture_url': account.profile_picture_url,
+                    'followers_count': account.followers_count,
+                    'account_type': account.account_type,
+                },
+                'notification_settings': notification_settings,
+                'connected_at': account.created_at.isoformat() if account.created_at else None,
             }
         except InstagramAccount.DoesNotExist:
             data = {'connected': False}

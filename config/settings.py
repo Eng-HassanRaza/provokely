@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     
     # Platform apps
     'platforms.instagram',
+    
+    # Hosted API service
+    'api_hosted',
 ]
 
 MIDDLEWARE = [
@@ -234,6 +237,9 @@ FACEBOOK_WEBHOOK_VERIFY_TOKEN = os.getenv('FACEBOOK_WEBHOOK_VERIFY_TOKEN', 'prov
 # OpenAI configuration
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')
+
+# JWT Secret for Hosted API
+JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', SECRET_KEY)
 
 # Firebase Cloud Messaging server key (for mobile push)
 FCM_SERVER_KEY = os.getenv('FCM_SERVER_KEY')

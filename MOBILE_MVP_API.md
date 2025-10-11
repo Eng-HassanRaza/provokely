@@ -11,6 +11,21 @@
 }
 ```
 
+### Important: Cross-Platform Connection Sync
+
+**Instagram connections are synced across web and mobile automatically.**
+
+- If a user connects Instagram via web dashboard, the mobile app will see `connected: true` when calling the status endpoint
+- If a user connects Instagram via mobile app, the web dashboard will show it as connected
+- Users only need to connect Instagram once, regardless of which platform they use
+- Notifications will work on mobile even if the connection was made on web (as long as FCM device token is registered)
+
+**Recommended Mobile Flow:**
+1. On app launch, call `GET /api/v1/instagram/accounts/mobile/status`
+2. If `connected: true`, show Instagram as connected and enable notification features
+3. If `connected: false`, show connect button that triggers Facebook SDK OAuth
+4. After successful connection (from mobile OR web), notifications will work automatically
+
 ### 1) Create/Login Account
 
 - Create account (MVP): via web `POST /accounts/signup/` or admin; no mobile signup endpoint in MVP.
@@ -66,10 +81,38 @@ or
 ```json
 {
   "success": true,
-  "data": { "connected": true, "ig_user": { "id": "1784...", "username": "brand" } },
+  "data": { 
+    "connected": true, 
+    "ig_user": { 
+      "id": "17841409228847394",
+      "username": "hassanjutt__",
+      "profile_picture_url": "https://...",
+      "followers_count": 1234,
+      "account_type": "BUSINESS"
+    },
+    "notification_settings": {
+      "auto_comment_enabled": true,
+      "notify_on_positive": false,
+      "notify_on_negative": true,
+      "notify_on_hate": true,
+      "notify_on_neutral": false,
+      "notify_on_purchase_intent": true,
+      "notify_on_question": true
+    },
+    "connected_at": "2025-01-15T10:30:00Z"
+  },
   "message": "Status fetched"
 }
 ```
+  - Response (not connected):
+```json
+{
+  "success": true,
+  "data": { "connected": false },
+  "message": "Status fetched"
+}
+```
+  - **Note:** This endpoint returns the Instagram connection status regardless of whether the user connected from web or mobile. If connected from web, the mobile app will see `connected: true` and can receive notifications without reconnecting.
 
 ### 2b) Connect Instagram (Native Facebook SDK - Recommended for Mobile)
 

@@ -101,6 +101,9 @@ urlpatterns = [
     path('api/v1/auth/login/', LoginView.as_view(), name='api_login_slash'),
     path('api/v1/auth/me', MeView.as_view(), name='api_me'),
     path('api/v1/auth/me/', MeView.as_view(), name='api_me_slash'),
+    
+    # Hosted API service endpoints
+    path('api/', include('api_hosted.urls')),
 ]
 
 # Serve media files in development

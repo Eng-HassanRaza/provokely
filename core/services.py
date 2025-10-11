@@ -104,44 +104,6 @@ class SocialMediaService:
         }
 
 
-class PushService:
-    """Send push notifications to registered devices via FCM (Android first)."""
-    def __init__(self):
-        self.enabled = bool(getattr(settings, 'FCM_SERVER_KEY', None))
-        self._client = None
-        if self.enabled:
-            try:
-                from pyfcm import FCMNotification
-                self._client = FCMNotification(api_key=settings.FCM_SERVER_KEY)
-            except Exception:
-                self.enabled = False
-
-    def notify_new_notification(self, user, notification):
-        if not self.enabled:
-            return
-        try:
-            tokens = list(Device.objects.filter(user=user, platform='android').values_list('token', flat=True))
-            if not tokens:
-                return
-            title = f"{notification.sentiment_label or 'New'} comment"
-            body = (notification.comment_text or '')[:120]
-            data_message = {
-                'type': 'comment',
-                'notification_id': str(notification.id),
-                'comment_id': notification.external_id,
-                'category': notification.sentiment_label or '',
-                'media_id': notification.media_id or '',
-            }
-            self._client.notify_multiple_devices(
-                registration_ids=tokens,
-                message_title=title,
-                message_body=body,
-                data_message=data_message,
-                sound='default'
-            )
-        except Exception:
-            pass
-    
     def analyze_comment_sentiment(self, comment: Comment):
         """Re-analyze sentiment for an existing comment"""
         sentiment = self.sentiment_analyzer.analyze(comment.content)
@@ -211,3 +173,42 @@ class PushService:
             return True
         except Comment.DoesNotExist:
             return False
+
+
+class PushService:
+    """Send push notifications to registered devices via FCM (Android first)."""
+    def __init__(self):
+        self.enabled = bool(getattr(settings, 'FCM_SERVER_KEY', None))
+        self._client = None
+        if self.enabled:
+            try:
+                from pyfcm import FCMNotification
+                self._client = FCMNotification(api_key=settings.FCM_SERVER_KEY)
+            except Exception:
+                self.enabled = False
+
+    def notify_new_notification(self, user, notification):
+        if not self.enabled:
+            return
+        try:
+            tokens = list(Device.objects.filter(user=user, platform='android').values_list('token', flat=True))
+            if not tokens:
+                return
+            title = f"{notification.sentiment_label or 'New'} comment"
+            body = (notification.comment_text or '')[:120]
+            data_message = {
+                'type': 'comment',
+                'notification_id': str(notification.id),
+                'comment_id': notification.external_id,
+                'category': notification.sentiment_label or '',
+                'media_id': notification.media_id or '',
+            }
+            self._client.notify_multiple_devices(
+                registration_ids=tokens,
+                message_title=title,
+                message_body=body,
+                data_message=data_message,
+                sound='default'
+            )
+        except Exception:
+            pass
