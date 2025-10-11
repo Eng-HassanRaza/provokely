@@ -1,4 +1,5 @@
 import jwt as pyjwt
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
@@ -145,4 +146,12 @@ class AIProxyView(APIView):
                 'message': 'AI request failed',
                 'error': str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def saas_validator_privacy(request):
+    """
+    Privacy policy page for SaaS Validator Chrome Extension
+    Public page - no authentication required
+    """
+    return render(request, 'saas_validator_privacy.html')
 

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - SaaS Validator Extension</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #fafafa;
+        }
+
+        header {
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(124, 58, 237, 0.2);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem 4rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .content {
+            padding: 3rem 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #7c3aed;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .last-updated {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #f3f4f6;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: #7c3aed;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #9333ea;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #4b5563;
+        }
+
+        ul {
+            margin: 1rem 0 1rem 2rem;
+            list-style-type: none;
+        }
+
+        ul li {
+            margin-bottom: 0.6rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #4b5563;
+        }
+
+        ul li:before {
+            content: "●";
+            color: #7c3aed;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        strong {
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        a {
+            color: #7c3aed;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #9333ea;
+            text-decoration: underline;
+        }
+
+        .highlight-box {
+            background: #f9fafb;
+            border-left: 4px solid #7c3aed;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 3rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            .container {
+                margin: 1.5rem auto;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">SaaSProof</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h1>Privacy Policy for SaaS Validator Extension</h1>
+            <p class="last-updated"><strong>Last Updated:</strong> January 2025</p>
+
+            <section class="section">
+                <h2>Overview</h2>
+                <p>SaaS Validator is a market research tool that helps entrepreneurs validate SaaS ideas by analyzing public Reddit discussions and market trends.</p>
+            </section>
+
+            <section class="section">
+                <h2>How the Extension Works</h2>
+                <p>SaaS Validator offers two modes:</p>
+
+                <h3>1. Hosted Service (Default - Recommended)</h3>
+                <ul>
+                    <li>You sign in with your email</li>
+                    <li>AI analysis is powered by our servers</li>
+                    <li>No API keys needed</li>
+                </ul>
+
+                <h3>2. Own API Keys (Advanced)</h3>
+                <ul>
+                    <li>You provide your own OpenAI API key</li>
+                    <li>AI analysis happens directly between your browser and OpenAI</li>
+                    <li>Full control over API usage</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Data Collection</h2>
+
+                <h3>Hosted Service Mode</h3>
+                <div class="highlight-box">
+                    <p><strong>What we collect:</strong></p>
+                    <ul>
+                        <li>Email address (for authentication)</li>
+                        <li>Project names and validation data (stored on our servers)</li>
+                        <li>Public Reddit posts and comments (scraped from Reddit.com)</li>
+                        <li>Google search results (scraped from Google.com)</li>
+                        <li>Usage statistics (for service improvement)</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>What we DON'T collect:</strong></p>
+                    <ul>
+                        <li>Personal browsing history</li>
+                        <li>Data from websites other than Reddit and Google search</li>
+                        <li>Credit card information (no payment required currently)</li>
+                        <li>Personal messages or private data</li>
+                    </ul>
+                </div>
+
+                <h3>Own API Keys Mode</h3>
+                <div class="highlight-box">
+                    <p><strong>What we collect:</strong></p>
+                    <ul>
+                        <li>Project data (stored locally in your browser only)</li>
+                        <li>No server-side data collection</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>What we DON'T collect:</strong></p>
+                    <ul>
+                        <li>Your API keys are NEVER sent to our servers</li>
+                        <li>No usage tracking</li>
+                        <li>No personal information</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Data Storage</h2>
+
+                <h3>Hosted Service</h3>
+                <ul>
+                    <li>Email and authentication tokens stored securely on our servers</li>
+                    <li>Project data stored on our servers (encrypted at rest)</li>
+                    <li>Local browser storage used for temporary data</li>
+                    <li>Data retained until you delete your account</li>
+                </ul>
+
+                <h3>Own Keys Mode</h3>
+                <ul>
+                    <li>All data stored locally in your browser only</li>
+                    <li>Nothing sent to our servers</li>
+                    <li>Your API keys stored encrypted in Chrome's local storage</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Third-Party Services</h2>
+
+                <h3>OpenAI API</h3>
+                <ul>
+                    <li>Used to analyze market data and generate insights</li>
+                    <li>Data sent: Reddit discussions, market research data, prompts</li>
+                    <li>OpenAI's privacy policy: <a href="https://openai.com/policies/privacy-policy" target="_blank">https://openai.com/policies/privacy-policy</a></li>
+                </ul>
+
+                <h3>Reddit & Google</h3>
+                <ul>
+                    <li>We extract publicly available information only</li>
+                    <li>No authentication required</li>
+                    <li>No personal data accessed</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Permissions Justification</h2>
+                <ul>
+                    <li><strong>storage</strong>: Store your settings and project data locally</li>
+                    <li><strong>tabs</strong>: Open Reddit threads and Google searches for automated research</li>
+                    <li><strong>activeTab</strong>: Access current tab only when you click the extension</li>
+                    <li><strong>sidePanel</strong>: Display the extension interface</li>
+                    <li><strong>host_permissions</strong>:
+                        <ul style="margin-left: 2rem;">
+                            <li>google.com: Extract public search results</li>
+                            <li>reddit.com: Extract public discussions</li>
+                            <li>provokely.com: Connect to our hosted service (for authentication and AI processing)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Data Sharing</h2>
+                <p>We do <strong>NOT</strong> share, sell, or rent your data to third parties.</p>
+                <p><strong>Data is only sent to:</strong></p>
+                <ul>
+                    <li>OpenAI API (for AI analysis of market research data)</li>
+                    <li>Our backend servers (provokely.com) - only in Hosted Service mode</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>User Rights</h2>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access your data at any time</li>
+                    <li>Delete all stored data via extension settings</li>
+                    <li>Export your validation reports as JSON</li>
+                    <li>Switch between Hosted Service and Own Keys modes</li>
+                    <li>Revoke the extension's permissions at any time</li>
+                    <li>Delete your account and all associated data</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <p><strong>To delete your data:</strong></p>
+                    <ul>
+                        <li><strong>Hosted Service:</strong> Contact us at support@provokely.com</li>
+                        <li><strong>Own Keys:</strong> Uninstall the extension</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Security</h2>
+                <ul>
+                    <li>Authentication tokens use industry-standard JWT</li>
+                    <li>All API communications use HTTPS encryption</li>
+                    <li>Passwords are never stored (email-only authentication)</li>
+                    <li>Local data encrypted using Chrome's secure storage</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Children's Privacy</h2>
+                <p>This extension is not intended for users under 13 years of age. We do not knowingly collect data from children.</p>
+            </section>
+
+            <section class="section">
+                <h2>Changes to This Policy</h2>
+                <p>We will notify users of any significant changes via:</p>
+                <ul>
+                    <li>Extension update notes</li>
+                    <li>Email notification (for Hosted Service users)</li>
+                    <li>Notice in the extension interface</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Contact</h2>
+                <p>For privacy concerns or questions:</p>
+                <ul>
+                    <li>Email: support@provokely.com</li>
+                    <li>Website: <a href="https://provokely.com" target="_blank">https://provokely.com</a></li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Legal Compliance</h2>
+                <p>This extension complies with:</p>
+                <ul>
+                    <li>GDPR (European Union)</li>
+                    <li>CCPA (California)</li>
+                    <li>Chrome Web Store policies</li>
+                </ul>
+            </section>
+
+            <div class="footer">
+                <p><strong>Your privacy is important to us. We are committed to transparency and protecting your data.</strong></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
