@@ -27,8 +27,15 @@ from core.api_auth_views import LoginView, MeView
 # from drf_yasg import openapi
 
 
-# Landing page views
-def landing(request):
+# Extension landing page (new - for SaaS Validator Chrome Extension)
+def extension_landing(request):
+    """Standalone landing page for SaaS Validator Chrome Extension"""
+    return render(request, 'extension_landing.html')
+
+
+# Original Provokely landing page (kept for reference)
+def provokely_landing(request):
+    """Original Provokely landing page - accessible at /provokely"""
     context = {
         'user_count': 247,
         'canonical_url': request.build_absolute_uri('/')
@@ -74,8 +81,11 @@ urlpatterns = [
     # Django Admin
     path('admin/', admin.site.urls),
     
-    # Landing Page
-    path('', landing, name='home'),
+    # Landing Pages
+    path('', extension_landing, name='home'),  # Extension landing (NEW - root URL)
+    path('provokely/', provokely_landing, name='provokely_landing'),  # Original Provokely landing (fallback)
+    
+    # Auth & Other Pages
     path('accounts/signup/', signup_view, name='signup'),
     path('accounts/login/', login_view, name='login'),
     path('accounts/logout/', logout_view, name='logout'),

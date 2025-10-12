@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - SaaS Validator</title>
+    <meta name="description" content="Get help with SaaS Validator Chrome Extension">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #fafafa;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .hero {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-card h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .email-link {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .email-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .support-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .support-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .support-card h3 {
+            font-size: 1.25rem;
+            color: #667eea;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .support-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .support-card a {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .faq-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 2rem;
+        }
+
+        .faq-section h2 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-item h3 {
+            color: #1f2937;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: #666;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero, .contact-card, .faq-section {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .contact-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                margin: 1.5rem auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">🚀 SaaS Validator</a>
+            <a href="/" class="back-link">← Back to Home</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>How Can We Help?</h1>
+            <p>We're here to support you on your validation journey. Get in touch and we'll respond within 24 hours.</p>
+        </div>
+
+        <div class="contact-card">
+            <h2>📧 Email Support</h2>
+            <p style="margin-bottom: 1.5rem; opacity: 0.9;">
+                Have a question, issue, or feedback? We'd love to hear from you!
+            </p>
+            <a href="mailto:support@provokely.com" class="email-link">
+                support@provokely.com
+            </a>
+        </div>
+
+        <div class="support-grid">
+            <div class="support-card">
+                <div class="icon">💬</div>
+                <h3>General Questions</h3>
+                <p>Have questions about features, pricing, or how to use SaaS Validator?</p>
+                <a href="mailto:support@provokely.com">Email us →</a>
+            </div>
+
+            <div class="support-card">
+                <div class="icon">🐛</div>
+                <h3>Report a Bug</h3>
+                <p>Found a bug or something not working correctly? Let us know so we can fix it.</p>
+                <a href="mailto:support@provokely.com?subject=Bug Report">Report bug →</a>
+            </div>
+
+            <div class="support-card">
+                <div class="icon">💡</div>
+                <h3>Feature Requests</h3>
+                <p>Have an idea for a new feature or improvement? We'd love to hear it!</p>
+                <a href="mailto:support@provokely.com?subject=Feature Request">Suggest feature →</a>
+            </div>
+
+            <div class="support-card">
+                <div class="icon">🔑</div>
+                <h3>API Key Issues</h3>
+                <p>Need help setting up your OpenAI API keys or troubleshooting API errors?</p>
+                <a href="mailto:support@provokely.com?subject=API Help">Get help →</a>
+            </div>
+
+            <div class="support-card">
+                <div class="icon">💳</div>
+                <h3>Billing & Subscriptions</h3>
+                <p>Questions about your subscription, billing, or need to cancel?</p>
+                <a href="mailto:support@provokely.com?subject=Billing Question">Contact billing →</a>
+            </div>
+
+            <div class="support-card">
+                <div class="icon">🎓</div>
+                <h3>Getting Started</h3>
+                <p>New to SaaS Validator? We'll help you get set up and validate your first idea.</p>
+                <a href="mailto:support@provokely.com?subject=Getting Started">Get onboarding help →</a>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Quick Answers</h2>
+            
+            <div class="faq-item">
+                <h3>What's your typical response time?</h3>
+                <p>We typically respond within 24 hours during business days (Monday-Friday). Urgent issues are prioritized.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Do you offer live chat support?</h3>
+                <p>Currently, we offer email support only. This allows us to provide detailed, thoughtful responses to your questions.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I request a refund?</h3>
+                <p>Yes! We offer a 30-day money-back guarantee for Pro subscriptions. Email us at <a href="mailto:support@provokely.com">support@provokely.com</a> to request a refund.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How do I report a security issue?</h3>
+                <p>Please email security concerns to <a href="mailto:support@provokely.com?subject=Security Issue">support@provokely.com</a> with "Security Issue" in the subject line. We take security seriously and will respond promptly.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is there a knowledge base or documentation?</h3>
+                <p>Yes! Check out our <a href="/api/saas-validator-privacy">Privacy Policy</a> and user guide. More documentation coming soon!</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>We're here to help you succeed! 🚀</strong></p>
+            <p style="margin-top: 1rem;">© 2025 SaaS Validator. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+

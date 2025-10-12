@@ -188,6 +188,16 @@ def payment_cancel(request):
     return render(request, 'payment_cancel.html')
 
 
+def extension_privacy(request):
+    """Privacy policy page for extension"""
+    return render(request, 'extension_privacy.html')
+
+
+def extension_support(request):
+    """Support page for extension"""
+    return render(request, 'extension_support.html')
+
+
 class CreateCheckoutSessionView(APIView):
     """
     POST /api/create-checkout-session

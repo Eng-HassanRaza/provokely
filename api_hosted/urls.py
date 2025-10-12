@@ -7,7 +7,9 @@ from api_hosted.views import (
     StripeWebhookView,
     SubscriptionStatusView,
     payment_success,
-    payment_cancel
+    payment_cancel,
+    extension_privacy,
+    extension_support
 )
 
 app_name = 'api_hosted'
@@ -21,5 +23,7 @@ urlpatterns = [
     path('subscription-status', SubscriptionStatusView.as_view(), name='subscription_status'),
     path('success', payment_success, name='payment_success'),
     path('cancel', payment_cancel, name='payment_cancel'),
+    path('privacy', extension_privacy, name='extension_privacy'),
+    path('support', extension_support, name='extension_support'),
 ]
 
