@@ -198,6 +198,16 @@ def extension_support(request):
     return render(request, 'extension_support.html')
 
 
+def cart_recovery_report(request):
+    """Abandoned Cart Recovery Strategy Report - Interactive Analytics Page"""
+    return render(request, 'cart_recovery_report.html')
+
+
+def cart_recovery_infographic(request):
+    """One-page infographic summary of cart recovery research"""
+    return render(request, 'cart_recovery_infographic.html')
+
+
 class CreateCheckoutSessionView(APIView):
     """
     POST /api/create-checkout-session

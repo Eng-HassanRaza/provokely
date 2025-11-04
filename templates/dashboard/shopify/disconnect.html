@@ -1,0 +1,57 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Disconnect Shopify - Provokely{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card border-0 bg-gradient-dark">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <div class="icon-lg mb-3 text-danger">
+              <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <h1 class="h3 fw-bold mb-2">Disconnect Shopify Store</h1>
+            <p class="text-white-50">Are you sure you want to disconnect this store?</p>
+          </div>
+
+          <div class="alert alert-warning text-start mb-4">
+            <h6 class="alert-heading mb-2"><i class="bi bi-info-circle me-2"></i>What will happen:</h6>
+            <ul class="mb-0 small">
+              <li>Your store connection will be removed</li>
+              <li>Review syncing will stop</li>
+              <li>Existing reviews will remain in the system</li>
+              <li>You can reconnect anytime</li>
+            </ul>
+          </div>
+
+          <div class="card bg-dark border-secondary mb-4">
+            <div class="card-body">
+              <h5 class="h6 fw-bold mb-2">{{ store.store_name }}</h5>
+              <p class="text-white-50 small mb-0">{{ store.shop_domain }}</p>
+            </div>
+          </div>
+
+          <form method="post" action="{% url 'dashboard:shopify:disconnect' store.id %}">
+            {% csrf_token %}
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-danger btn-lg">
+                <i class="bi bi-x-circle me-2"></i>Yes, Disconnect Store
+              </button>
+              <a href="{% url 'dashboard:shopify:settings' %}" class="btn btn-outline-light">
+                Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+

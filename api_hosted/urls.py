@@ -9,7 +9,9 @@ from api_hosted.views import (
     payment_success,
     payment_cancel,
     extension_privacy,
-    extension_support
+    extension_support,
+    cart_recovery_report,
+    cart_recovery_infographic
 )
 
 app_name = 'api_hosted'
@@ -25,5 +27,7 @@ urlpatterns = [
     path('cancel', payment_cancel, name='payment_cancel'),
     path('privacy', extension_privacy, name='extension_privacy'),
     path('support', extension_support, name='extension_support'),
+    path('cart-recovery-report', cart_recovery_report, name='cart_recovery_report'),
+    path('cart-recovery-infographic', cart_recovery_infographic, name='cart_recovery_infographic'),
 ]
 

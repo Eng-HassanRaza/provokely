@@ -57,31 +57,8 @@
     
     {% block extra_js %}{% endblock %}
     <script>
-      // SSE push for new notifications (fallback could be polling)
-      document.addEventListener('DOMContentLoaded', function(){
-        const bell = document.querySelector('a.nav-link[aria-label="Notifications"]');
-        const badge = bell ? bell.querySelector('.badge') : null;
-        try{
-          const es = new EventSource('{% url "dashboard:notifications_poll" %}');
-          es.onmessage = function(ev){
-            try{
-              const data = JSON.parse(ev.data);
-              if(typeof data.unread_count !== 'undefined' && badge){
-                if(data.unread_count > 0){ badge.classList.remove('d-none'); badge.textContent = data.unread_count; }
-                else { badge.classList.add('d-none'); }
-              }
-              if(data.latest){
-                const toast = document.createElement('div');
-                toast.className = 'toast position-fixed top-0 end-0 m-3 show pk-toast';
-                toast.style.zIndex = 1080;
-                toast.innerHTML = `<div class=\"toast-header pk-toast-header\"><strong class=\"me-auto\">New Notification</strong><small>now</small><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\"></button></div><div class=\"toast-body\">${(data.latest.label||'').toUpperCase()}: ${data.latest.text||''}</div>`;
-                document.body.appendChild(toast);
-                setTimeout(()=>{ toast.remove(); }, 5000);
-              }
-            }catch(e){ /* ignore */ }
-          };
-        }catch(e){ /* ignore */ }
-      });
+      // Notifications SSE removed (route deprecated). Keep placeholder to avoid errors.
+      document.addEventListener('DOMContentLoaded', function(){ /* no-op */ });
     </script>
   </body>
 </html>

@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data Deletion — ReviewFlow</title>
+    <meta name="description" content="How to request deletion of your data from ReviewFlow and connected services.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'images/favicon.svg' %}">
+    <style>
+      body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#fff; color:#0f172a; }
+      .container-narrow{ max-width:900px; }
+      .muted{ color:#475569; }
+      .divider{ border-top:1px solid #e2e8f0; }
+      h1,h2,h3{ letter-spacing:-.2px; }
+      a{ color:#2563eb; text-decoration:none; }
+      a:hover{ text-decoration:underline; }
+      ul{ padding-left:1.2rem; }
+      .step{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:1rem 1.25rem; }
+    </style>
+  </head>
+  <body>
+    <nav class="border-bottom" style="background:#ffffffcc; backdrop-filter:blur(12px);">
+      <div class="container container-narrow d-flex align-items-center justify-content-between py-3">
+        <a href="/" class="d-inline-flex align-items-center text-decoration-none">
+          <img src="{% static 'images/logo.svg' %}" alt="ReviewFlow" width="28" height="28" class="me-2"/>
+          <strong class="text-dark">ReviewFlow</strong>
+        </a>
+        <a class="btn btn-primary btn-sm" href="/dashboard/">Dashboard</a>
+      </div>
+    </nav>
+
+    <main class="container container-narrow py-5">
+      <header class="mb-4">
+        <h1 class="h2 mb-2">Data Deletion</h1>
+        <p class="muted mb-0">Last updated: {{ last_updated|default:"October 30, 2025" }}</p>
+      </header>
+
+      <section class="mb-4">
+        <p class="muted">This page explains how to request deletion of your data stored by ReviewFlow. You can submit a deletion request at any time. We will remove associated data from our systems and instruct subprocessors where applicable.</p>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5">What we delete</h2>
+        <ul class="muted">
+          <li>Account profile and authentication data stored by ReviewFlow.</li>
+          <li>Connected platform tokens (e.g., Instagram, Shopify, Judge.me).</li>
+          <li>Generated media, logs, and configuration linked to your account.</li>
+        </ul>
+        <p class="muted small">Note: Content already published on third‑party platforms (e.g., Instagram posts) must be removed directly in those platforms.</p>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5">How to request deletion</h2>
+        <div class="step mb-2">
+          <strong>Option A — In‑app request</strong>
+          <p class="muted mb-0">Open the dashboard, disconnect integrations, then contact support via the dashboard with subject “Data Deletion Request”.</p>
+        </div>
+        <div class="step">
+          <strong>Option B — Email</strong>
+          <p class="muted mb-0">Email our support with your account email and subject “Data Deletion Request”. We’ll verify ownership before proceeding.</p>
+        </div>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5">Timeframe</h2>
+        <p class="muted">We aim to complete deletion within 30 days of verified request. Backups are pruned on a rolling basis and may retain data for a short period, after which it is irretrievably removed.</p>
+      </section>
+
+      <section class="mb-5">
+        <h2 class="h5">After deletion</h2>
+        <ul class="muted">
+          <li>Your account access will be disabled.</li>
+          <li>All associated tokens are revoked.</li>
+          <li>Automations and posting stop immediately.</li>
+        </ul>
+      </section>
+
+      <div class="divider my-4"></div>
+      <p class="muted">See also our <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms of Service</a>.</p>
+    </main>
+
+    <footer class="border-top py-4">
+      <div class="container container-narrow d-flex justify-content-between">
+        <span class="muted">© {{ now|date:"Y" }} ReviewFlow</span>
+        <div class="d-flex gap-3">
+          <a href="/privacy/">Privacy</a>
+          <a href="/data-deletion/">Data Deletion</a>
+          <a href="/terms/">Terms</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+  </html>
+
+
+
+
+

@@ -22,25 +22,26 @@ from django.conf import settings
 from django.conf.urls.static import static
 from core.auth_views import login_view, logout_view, signup_view
 from core.api_auth_views import LoginView, MeView
-# from rest_framework import permissions
-# from drf_yasg.views import get_schema_view
-# from drf_yasg import openapi
+from shopify_integration.views import shopify_install, shopify_callback, judgeme_webhook
 
 
-# Extension landing page (new - for SaaS Validator Chrome Extension)
-def extension_landing(request):
-    """Standalone landing page for SaaS Validator Chrome Extension"""
-    return render(request, 'extension_landing.html')
-
-
-# Original Provokely landing page (kept for reference)
+# Original Provokely landing page
 def provokely_landing(request):
-    """Original Provokely landing page - accessible at /provokely"""
+    """Original Provokely landing page - now at root URL"""
     context = {
         'user_count': 247,
         'canonical_url': request.build_absolute_uri('/')
     }
     return render(request, 'landing/index.html', context)
+
+
+# ReviewFlow landing page
+def reviewflow_landing(request):
+    """ReviewFlow landing page - distinctive editorial magazine design"""
+    context = {
+        'canonical_url': request.build_absolute_uri('/reviewflow/')
+    }
+    return render(request, 'landing/reviewflow.html', context)
 
 
 def signup_redirect(request):
@@ -63,6 +64,12 @@ def privacy(request):
     return render(request, 'landing/privacy.html')
 
 
+def terms(request):
+    return render(request, 'landing/terms.html')
+
+def data_deletion(request):
+    return render(request, 'landing/data_deletion.html')
+
 # API Documentation (uncomment after installing drf-yasg)
 # schema_view = get_schema_view(
 #     openapi.Info(
@@ -82,8 +89,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Landing Pages
-    path('', extension_landing, name='home'),  # Extension landing (NEW - root URL)
-    path('provokely/', provokely_landing, name='provokely_landing'),  # Original Provokely landing (fallback)
+    path('', provokely_landing, name='home'),  # Original Provokely landing (restored to root)
+    path('reviewflow/', reviewflow_landing, name='reviewflow'),  # ReviewFlow landing page
     
     # Auth & Other Pages
     path('accounts/signup/', signup_view, name='signup'),
@@ -93,10 +100,8 @@ urlpatterns = [
     path('lead/capture/', lead_capture, name='lead_capture'),
     path('contact/submit/', contact_submit, name='contact_submit'),
     path('privacy/', privacy, name='privacy'),
-    
-    # API Documentation (uncomment after installing drf-yasg)
-    # path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('terms/', terms, name='terms'),
+    path('data-deletion/', data_deletion, name='data_deletion'),
     
     # Dashboard
     path('dashboard/', include('core.dashboard_urls')),
@@ -114,6 +119,11 @@ urlpatterns = [
     
     # Hosted API service endpoints
     path('api/', include('api_hosted.urls')),
+    
+    # Shopify Integration
+    path('shopify/install/', shopify_install, name='shopify_install'),
+    path('shopify/callback/', shopify_callback, name='shopify_callback'),
+    path('api/webhooks/judgeme/', judgeme_webhook, name='judgeme_webhook'),
 ]
 
 # Serve media files in development

@@ -1,0 +1,84 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Shopify Settings - Provokely{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <h1 class="h3 fw-bold mb-2">Shopify Stores</h1>
+          <p class="text-white-50 mb-0">Manage your connected Shopify stores</p>
+        </div>
+        <a href="{% url 'dashboard:shopify:connect' %}" class="btn btn-primary">
+          <i class="bi bi-plus-circle me-2"></i>Connect New Store
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% if stores %}
+    <div class="row g-4">
+      {% for store in stores %}
+        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up">
+          <div class="card border-0 bg-gradient-dark h-100">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="icon-lg text-success">
+                  <i class="bi bi-shop"></i>
+                </div>
+                <span class="badge bg-success">Connected</span>
+              </div>
+              
+              <h4 class="h5 fw-bold mb-2">{{ store.store_name }}</h4>
+              <p class="text-white-50 small mb-3">{{ store.shop_domain }}</p>
+              
+              <div class="mb-3">
+                <small class="text-white-50">
+                  <i class="bi bi-calendar me-1"></i>
+                  Connected {{ store.installed_at|date:"M d, Y" }}
+                </small>
+              </div>
+
+              {% if store.logo_url %}
+                <div class="mb-3">
+                  <img src="{{ store.logo_url }}" alt="{{ store.store_name }}" class="img-fluid rounded" style="max-height: 60px;">
+                </div>
+              {% endif %}
+
+              <div class="d-grid gap-2">
+                <a href="{% url 'dashboard:shopify:disconnect' store.id %}" class="btn btn-outline-danger btn-sm">
+                  <i class="bi bi-x-circle me-2"></i>Disconnect
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card border-0 bg-gradient-dark text-center">
+          <div class="card-body p-5">
+            <div class="icon-lg mb-3 text-white-50">
+              <i class="bi bi-shop"></i>
+            </div>
+            <h4 class="h5 fw-bold mb-2">No Shopify stores connected</h4>
+            <p class="text-white-50 mb-4">Connect your first Shopify store to start syncing reviews</p>
+            <a href="{% url 'dashboard:shopify:connect' %}" class="btn btn-primary">
+              <i class="bi bi-plus-circle me-2"></i>Connect Shopify Store
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+
+
+

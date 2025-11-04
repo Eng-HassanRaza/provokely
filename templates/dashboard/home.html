@@ -11,38 +11,7 @@
       <h1 class="display-5 fw-bold mb-3">
         Welcome back, <span class="gradient-text">{{ user.get_full_name|default:user.username }}</span>!
       </h1>
-      <p class="lead text-white-50">Ready to turn hate comments into engagement goldmines?</p>
-    </div>
-  </div>
-
-  <!-- Quick Stats -->
-  <div class="row g-4 mb-5">
-    <div class="col-12 col-md-4" data-aos="fade-up">
-      <div class="card bg-gradient-primary border-0 h-100">
-        <div class="card-body text-center">
-          <div class="icon-lg mb-3"><i class="bi bi-graph-up-arrow"></i></div>
-          <h3 class="h4 fw-bold">0</h3>
-          <p class="text-white-50 mb-0">Comments Analyzed</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="100">
-      <div class="card bg-gradient-success border-0 h-100">
-        <div class="card-body text-center">
-          <div class="icon-lg mb-3"><i class="bi bi-chat-dots-fill"></i></div>
-          <h3 class="h4 fw-bold">0</h3>
-          <p class="text-white-50 mb-0">AI Responses</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="200">
-      <div class="card bg-gradient-warning border-0 h-100">
-        <div class="card-body text-center">
-          <div class="icon-lg mb-3"><i class="bi bi-lightning-charge-fill"></i></div>
-          <h3 class="h4 fw-bold">0%</h3>
-          <p class="text-white-50 mb-0">Engagement Boost</p>
-        </div>
-      </div>
+      <p class="lead text-white-50">Transform your reviews into beautiful Instagram posts</p>
     </div>
   </div>
 
@@ -64,17 +33,16 @@
                   <span class="badge bg-success">Connected</span>
                   <span class="text-white-50 small">@{{ instagram_username }}</span>
                 </div>
-                <p class="text-white-50 small mb-3">Monitoring your posts for engagement opportunities</p>
+                <p class="text-white-50 small mb-3">Ready to post beautiful review images</p>
                 <div class="d-flex gap-2">
                   <form method="post" action="{% url 'dashboard:instagram:disconnect' %}" class="d-inline" onsubmit="return confirm('Are you sure you want to disconnect your Instagram account?')">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-danger btn-sm">Disconnect</button>
                   </form>
                   <a href="{% url 'dashboard:instagram:settings' %}" class="btn btn-outline-light btn-sm">Settings</a>
-                  <a href="{% url 'dashboard:instagram:webhooks' %}" class="btn btn-outline-secondary btn-sm">Webhooks</a>
                 </div>
               {% else %}
-                <p class="text-white-50 small mb-3">Connect your Instagram account to start monitoring posts and comments</p>
+                <p class="text-white-50 small mb-3">Connect your Instagram account to start posting review images</p>
                 <a href="{% url 'dashboard:instagram:connect' %}" class="btn btn-primary">
                   <i class="bi bi-plus-circle me-2"></i>Connect Instagram
                 </a>
@@ -83,31 +51,42 @@
           </div>
         </div>
 
-        <!-- Facebook Connection Card -->
+        <!-- Shopify Connection Card -->
         <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
           <div class="card border-0 bg-gradient-dark h-100">
             <div class="card-body text-center p-4">
-              <div class="icon-lg mb-3 text-primary">
-                <i class="bi bi-facebook"></i>
+              <div class="icon-lg mb-3 text-success">
+                <i class="bi bi-shop"></i>
               </div>
-              <h4 class="h5 fw-bold mb-2">Facebook</h4>
-              <p class="text-white-50 small mb-3">Coming soon - Connect your Facebook pages</p>
-              <button class="btn btn-outline-secondary btn-sm" disabled>
-                <i class="bi bi-clock me-2"></i>Coming Soon
-              </button>
+              <h4 class="h5 fw-bold mb-2">Shopify Store</h4>
+              {% if shopify_connected %}
+                <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                  <span class="badge bg-success">Connected</span>
+                  <span class="text-white-50 small">{{ shopify_stores.count }} store{{ shopify_stores.count|pluralize }}</span>
+                </div>
+                <p class="text-white-50 small mb-3">Ready to sync reviews</p>
+                <div class="d-flex gap-2">
+                  <a href="{% url 'dashboard:shopify:settings' %}" class="btn btn-outline-light btn-sm">Manage Stores</a>
+                </div>
+              {% else %}
+                <p class="text-white-50 small mb-3">Connect your Shopify store to sync reviews</p>
+                <a href="{% url 'dashboard:shopify:connect' %}" class="btn btn-primary">
+                  <i class="bi bi-plus-circle me-2"></i>Connect Shopify
+                </a>
+              {% endif %}
             </div>
           </div>
         </div>
 
-        <!-- YouTube Connection Card -->
+        <!-- JudgeMe Connection Card -->
         <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
           <div class="card border-0 bg-gradient-dark h-100">
             <div class="card-body text-center p-4">
-              <div class="icon-lg mb-3 text-danger">
-                <i class="bi bi-youtube"></i>
+              <div class="icon-lg mb-3 text-warning">
+                <i class="bi bi-star-fill"></i>
               </div>
-              <h4 class="h5 fw-bold mb-2">YouTube</h4>
-              <p class="text-white-50 small mb-3">Coming soon - Connect your YouTube channel</p>
+              <h4 class="h5 fw-bold mb-2">JudgeMe Reviews</h4>
+              <p class="text-white-50 small mb-3">Automatically sync customer reviews</p>
               <button class="btn btn-outline-secondary btn-sm" disabled>
                 <i class="bi bi-clock me-2"></i>Coming Soon
               </button>
@@ -118,31 +97,32 @@
     </div>
   </div>
 
-  <!-- Recent Activity -->
-  <div class="row">
+  <!-- Recent Posts -->
+  <div class="row mb-5">
     <div class="col-12">
-      <h2 class="h3 fw-bold mb-4">Recent Activity</h2>
+      <h2 class="h3 fw-bold mb-4">Recent Instagram Posts</h2>
       <div class="card border-0 bg-gradient-dark">
         <div class="card-body">
-          {% if recent_comments %}
-            <div class="list-group list-group-flush">
-              {% for comment in recent_comments %}
-                <div class="list-group-item bg-transparent border-secondary">
-                  <div class="d-flex align-items-start gap-3">
-                    <div class="flex-shrink-0">
-                      <div class="badge bg-{% if comment.sentiment_label == 'positive' %}success{% elif comment.sentiment_label == 'negative' %}warning{% elif comment.sentiment_label == 'hate' %}danger{% else %}secondary{% endif %}">
-                        {{ comment.sentiment_label|title }}
+          {% if recent_posts %}
+            <div class="row g-4">
+              {% for post in recent_posts %}
+                <div class="col-md-6 col-lg-4">
+                  <div class="card bg-gradient-secondary border-0 h-100">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge bg-{% if post.status == 'completed' %}success{% elif post.status == 'failed' %}danger{% elif post.status == 'generating' %}warning{% else %}secondary{% endif %}">
+                          {{ post.status|title }}
+                        </span>
+                        <small class="text-white-50">{{ post.created_at|timesince }} ago</small>
                       </div>
+                      <h6 class="fw-bold mb-2">{{ post.review_id }}</h6>
+                      <p class="text-white-50 small mb-3">{{ post.caption|truncatechars:100 }}</p>
+                      {% if post.instagram_permalink %}
+                        <a href="{{ post.instagram_permalink }}" target="_blank" class="btn btn-outline-light btn-sm">
+                          <i class="bi bi-instagram me-1"></i>View Post
+                        </a>
+                      {% endif %}
                     </div>
-                    <div class="flex-grow-1">
-                      <p class="mb-1">{{ comment.content|truncatechars:100 }}</p>
-                      <small class="text-white-50">{{ comment.platform|title }} • {{ comment.created_at|timesince }} ago</small>
-                    </div>
-                    {% if comment.ai_response %}
-                      <div class="flex-shrink-0">
-                        <span class="badge bg-primary">AI Responded</span>
-                      </div>
-                    {% endif %}
                   </div>
                 </div>
               {% endfor %}
@@ -150,18 +130,15 @@
           {% else %}
             <div class="text-center py-5">
               <div class="icon-lg mb-3 text-white-50">
-                <i class="bi bi-chat-left-text"></i>
+                <i class="bi bi-image"></i>
               </div>
-              <h4 class="h5 text-white-50">No activity yet</h4>
-              <p class="text-white-50">Connect your social media accounts to start monitoring comments</p>
+              <h4 class="h5 text-white-50">No posts yet</h4>
+              <p class="text-white-50">Connect your accounts to start creating beautiful review posts</p>
             </div>
           {% endif %}
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Webhook-only mode: comments/AI previews are not rendered on dashboard -->
 </div>
 {% endblock %}
-

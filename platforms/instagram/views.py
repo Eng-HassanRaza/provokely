@@ -5,8 +5,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.conf import settings
 
 from platforms.instagram.models import InstagramAccount, InstagramWebhook
-from core.models import Comment as AppComment, UserSettings, Notification
-from core.notify import publish
+from core.models import Post, UserSettings
 from platforms.instagram.serializers import (
     InstagramAccountSerializer, 
     InstagramAccountCreateSerializer,
@@ -22,7 +21,6 @@ from urllib.parse import urlencode
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
-from core.services import PushService
 
 
 class InstagramAccountViewSet(viewsets.ModelViewSet):
@@ -142,55 +140,6 @@ class InstagramAccountViewSet(viewsets.ModelViewSet):
         return success_response(
             data={'account_id': account.id, 'fetched': len(posts), 'created': created_count},
             message="Posts synchronized"
-        )
-    
-    @action(detail=True, methods=['post'])
-    def sync_comments(self, request, pk=None):
-        """
-        Sync comments from Instagram for this account
-        POST /api/v1/instagram/accounts/{id}/sync_comments/
-        Body: { "post_id": "instagram_post_id" }
-        """
-        account = self.get_object()
-        post_id = request.data.get('post_id')
-        
-        if not post_id:
-            return error_response(
-                message="post_id is required",
-                code="VALIDATION_ERROR",
-                status_code=status.HTTP_400_BAD_REQUEST
-            )
-        
-        # Ensure fresh token
-        if InstagramService().should_refresh_token(account.token_created_at, account.expires_in):
-            try:
-                refreshed = InstagramService().refresh_user_token(account.access_token)
-                account.access_token = refreshed.get('access_token', account.access_token)
-                account.expires_in = refreshed.get('expires_in', account.expires_in)
-                account.token_created_at = timezone.now()
-                account.save()
-            except PlatformAPIError:
-                pass
-        service = InstagramService()
-        service.bind_access_token(account.access_token)
-        comments = service.fetch_comments(post_id)
-        processed = 0
-        for c in comments:
-            try:
-                # Process via core service
-                result = service.core_service.process_comment(
-                    comment_text=c.get('text', ''),
-                    platform='instagram',
-                    external_id=c.get('id', ''),
-                    user=account.user,
-                    post_id=post_id
-                )
-                processed += 1
-            except Exception:
-                continue
-        return success_response(
-            data={'account_id': account.id, 'post_id': post_id, 'fetched': len(comments), 'processed': processed},
-            message="Comments synchronized"
         )
     
     @action(detail=True, methods=['get'])

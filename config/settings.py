@@ -31,7 +31,13 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-e&v4r$(vyzply+3#oe3=e#hfw1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() in ['1', 'true', 'yes']
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.provokely.com,.ngrok-free.app').split(',')
+
+# CSRF trusted origins (required for HTTPS tunnels like ngrok)
+# Provide as comma-separated list, including scheme, e.g.:
+# CSRF_TRUSTED_ORIGINS=https://abcd-1234.ngrok-free.app,https://your-domain.com
+_csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', '').strip()
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in _csrf_origins.split(',') if o.strip()] if _csrf_origins else []
 
 
 # Application definition
@@ -50,7 +56,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'django_filters',
-    # 'drf_yasg',  # Uncomment after installing
+    'django_hosts',  # Subdomain routing
     
     # Core app (platform-agnostic)
     'core',
@@ -58,11 +64,18 @@ INSTALLED_APPS = [
     # Platform apps
     'platforms.instagram',
     
+    # Shopify integration
+    'shopify_integration',
+    
     # Hosted API service
     'api_hosted',
+    
+    # ReviewSocial subdomain app
+    'reviewsocial',
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',  # Django hosts - must be first
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',  # CORS middleware
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,9 +84,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware',  # Django hosts - must be last
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+# Django Hosts configuration
+ROOT_HOSTCONF = 'config.hosts'
+DEFAULT_HOST = 'base'  # Default to base domain (provokely.com)
 
 TEMPLATES = [
     {
@@ -225,9 +243,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 """Instagram / Facebook Login Configuration"""
 # Read sensitive values from environment variables for modularity and security
-INSTAGRAM_CLIENT_ID = os.getenv('INSTAGRAM_CLIENT_ID', '786321047474658')
-INSTAGRAM_CLIENT_SECRET = os.getenv('INSTAGRAM_CLIENT_SECRET', '99b01bff73ecb3b70bfe609b93686532')
-INSTAGRAM_REDIRECT_URI = os.getenv('INSTAGRAM_REDIRECT_URI', 'http://localhost:8000/dashboard/instagram/callback/')
+INSTAGRAM_CLIENT_ID = os.getenv('INSTAGRAM_CLIENT_ID')
+INSTAGRAM_CLIENT_SECRET = os.getenv('INSTAGRAM_CLIENT_SECRET')
+INSTAGRAM_REDIRECT_URI = os.getenv('INSTAGRAM_REDIRECT_URI', f"{os.getenv('SITE_URL','http://localhost:8000')}/dashboard/instagram/callback/")
 # Mobile-specific redirect URI for in-app OAuth
 INSTAGRAM_MOBILE_REDIRECT_URI = os.getenv('INSTAGRAM_MOBILE_REDIRECT_URI', 'http://localhost:8000/api/v1/instagram/mobile/callback/')
 # Centralize Graph API version to avoid hard-coding in services
@@ -250,6 +268,27 @@ STRIPE_ANNUAL_PRICE_ID = os.getenv('STRIPE_ANNUAL_PRICE_ID')
 
 # Firebase Cloud Messaging server key (for mobile push)
 FCM_SERVER_KEY = os.getenv('FCM_SERVER_KEY')
+
+# Shopify Integration
+SHOPIFY_API_KEY = os.getenv('SHOPIFY_API_KEY')
+SHOPIFY_API_SECRET = os.getenv('SHOPIFY_API_SECRET')
+SHOPIFY_SCOPES = os.getenv('SHOPIFY_SCOPES', 'read_products,read_orders')
+SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
+SHOPIFY_REDIRECT_URI = os.getenv('SHOPIFY_REDIRECT_URI', f"{SITE_URL}/dashboard/shopify/callback/")
+
+# JudgeMe Integration
+JUDGEME_WEBHOOK_SECRET = os.getenv('JUDGEME_WEBHOOK_SECRET')
+
+# Google Nanobanan Integration
+NANOBANAN_API_KEY = os.getenv('NANOBANAN_API_KEY')
+
+# Celery Configuration (for background tasks)
+CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
+CELERY_RESULT_BACKEND = os.getenv('REDIS_URL', 'redis://localhost:6379')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
 
 # Basic logging configuration
 LOGGING = {

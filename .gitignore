@@ -83,3 +83,5 @@ dump.rdb
 .env
 *.md
 
+*.bak
+.env.bak*

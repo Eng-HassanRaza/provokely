@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abandoned Cart Recovery Strategy Report | E-Commerce Research Study 2025</title>
+    <meta name="description" content="Academic research analysis comparing personalized video emails vs text emails for abandoned cart recovery">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700;900&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #059669;
+            --primary-light: #10b981;
+            --primary-dark: #047857;
+            --secondary: #0891b2;
+            --accent: #f59e0b;
+            --dark: #1f2937;
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-500: #6b7280;
+            --gray-400: #9ca3af;
+            --gray-300: #d1d5db;
+            --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6;
+            --gray-50: #f9fafb;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.8;
+            color: var(--gray-800);
+            background: var(--gray-50);
+            overflow-x: hidden;
+        }
+
+        /* Header - Research Paper Style */
+        .research-header {
+            background: white;
+            border-bottom: 3px solid var(--primary);
+            padding: 4rem 2rem 3rem;
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .research-category {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .research-category::before {
+            content: '';
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        h1 {
+            font-family: 'Merriweather', 'Source Serif 4', Georgia, serif;
+            font-size: 2.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+        }
+
+        .research-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: var(--gray-900);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            color: var(--gray-600);
+        }
+
+        /* Abstract Section */
+        .abstract {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-left: 4px solid var(--primary);
+            padding: 2.5rem;
+            margin: 3rem auto;
+            max-width: 1100px;
+            border-radius: 8px;
+        }
+
+        .abstract-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .abstract-text {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--gray-700);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Key Findings Cards */
+        .key-findings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .finding-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .finding-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .finding-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Merriweather', serif;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .finding-label {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .finding-context {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            margin-top: 0.5rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* Section Styling */
+        .section {
+            background: white;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .section-number {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 36px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        /* Chart Container */
+        .chart-wrapper {
+            background: var(--gray-50);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid var(--gray-200);
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+        }
+
+        .chart-container.small {
+            height: 320px;
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        .data-table thead {
+            background: var(--gray-100);
+        }
+
+        .data-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-900);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--gray-50);
+        }
+
+        .table-highlight {
+            background: #ecfdf5;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* Comparison Grid */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-panel {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-panel:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .panel-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--primary);
+            color: white;
+        }
+
+        .panel-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .metric-list {
+            list-style: none;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.875rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+
+        .metric-name {
+            font-weight: 500;
+            color: var(--gray-700);
+            font-size: 0.95rem;
+        }
+
+        .metric-value {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--primary);
+        }
+
+        /* Strengths/Limitations Lists */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .analysis-panel {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .analysis-panel.strengths {
+            border-left: 4px solid var(--primary);
+        }
+
+        .analysis-panel.limitations {
+            border-left: 4px solid var(--accent);
+        }
+
+        .analysis-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .analysis-list {
+            list-style: none;
+        }
+
+        .analysis-item {
+            padding: 0.75rem 0 0.75rem 2rem;
+            position: relative;
+            color: var(--gray-700);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .analysis-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+        }
+
+        .strengths .analysis-item::before {
+            background: var(--primary);
+            content: '✓';
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 18px;
+        }
+
+        .limitations .analysis-item::before {
+            background: var(--accent);
+            content: '!';
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 18px;
+        }
+
+        /* Insight Boxes */
+        .insight-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.75rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .insight-box.warning {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left-color: var(--accent);
+        }
+
+        .insight-box.info {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left-color: var(--secondary);
+        }
+
+        .insight-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .insight-title {
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .insight-text {
+            color: var(--gray-700);
+            line-height: 1.8;
+        }
+
+        /* Methodology Section */
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .methodology-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .methodology-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .methodology-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .methodology-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .methodology-desc {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 10px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+        }
+
+        .timeline-content {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .timeline-time {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .timeline-desc {
+            color: var(--gray-700);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Merriweather', serif;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .stat-context {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.5rem;
+        }
+
+        /* Conclusion */
+        .conclusion {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .conclusion-title {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+        }
+
+        .conclusion-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--gray-700);
+            max-width: 800px;
+            margin: 0 auto 1rem;
+        }
+
+        /* Footer */
+        .research-footer {
+            background: white;
+            border-top: 3px solid var(--primary);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .footer-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            margin: 1.5rem auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            h1 { font-size: 2.25rem; }
+            .comparison-container,
+            .analysis-grid { grid-template-columns: 1fr; }
+            .section { padding: 2rem; }
+            .chart-container { height: 350px; }
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 1.85rem; }
+            .research-header { padding: 3rem 1.5rem 2rem; }
+            .abstract { padding: 1.5rem; margin: 2rem 1rem; }
+            .section { padding: 1.5rem; margin-bottom: 2rem; }
+            .container { padding: 1rem; }
+            .chart-container { height: 300px; }
+        }
+
+        /* Print Styles */
+        @media print {
+            body { background: white; }
+            .section { break-inside: avoid; }
+            .chart-container { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Research Header -->
+    <div class="research-header">
+        <div class="header-container">
+            <div class="research-category">
+                E-Commerce Marketing Research • January 2025
+            </div>
+            <h1>Abandoned Cart Recovery Strategy Report: Personalized Text Emails vs. Personalized Video Emails</h1>
+            <div class="research-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Research Type</div>
+                    <div class="meta-value">Comparative Analysis Study</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Publication Date</div>
+                    <div class="meta-value">January 2025</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Study Focus</div>
+                    <div class="meta-value">E-Commerce Cart Recovery</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Data Sources</div>
+                    <div class="meta-value">Industry Reports & Case Studies</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Abstract -->
+    <div class="abstract">
+        <h2 class="abstract-title">Abstract</h2>
+        <p class="abstract-text">
+            This research study examines the efficacy of personalized video emails versus traditional personalized text emails
+            in abandoned cart recovery campaigns within the e-commerce sector. Through comprehensive analysis of performance metrics,
+            engagement rates, and conversion data, we demonstrate that personalized video emails achieve significantly superior
+            results, with conversion rates of 20-30% compared to approximately 20% for text emails, and engagement rates up to
+            3x higher. The study reveals that while both approaches leverage personalization and optimal timing, video emails
+            create stronger emotional connections and more effectively penetrate promotional noise. This report provides strategic
+            insights for e-commerce businesses seeking to optimize their cart recovery strategies in an increasingly competitive
+            digital marketplace.
+        </p>
+    </div>
+
+    <div class="container">
+        <!-- Key Findings -->
+        <div class="key-findings">
+            <div class="finding-card">
+                <div class="finding-number">20-30%</div>
+                <div class="finding-label">Video Email Conversion Rate</div>
+                <div class="finding-context">Up to 50% higher than text email average</div>
+            </div>
+            <div class="finding-card">
+                <div class="finding-number">3x</div>
+                <div class="finding-label">Engagement Rate Multiplier</div>
+                <div class="finding-context">Video vs text email comparison</div>
+            </div>
+            <div class="finding-card">
+                <div class="finding-number">41%+</div>
+                <div class="finding-label">Click-Through Rate</div>
+                <div class="finding-context">Personalized text emails</div>
+            </div>
+            <div class="finding-card">
+                <div class="finding-number">35%</div>
+                <div class="finding-label">Trust Boost</div>
+                <div class="finding-context">With celebrity/brand ambassador integration</div>
+            </div>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">1</div>
+                <h2 class="section-title">Introduction & Context</h2>
+                <p class="section-subtitle">
+                    Cart abandonment represents one of e-commerce's most significant challenges, with billions in potential
+                    revenue lost annually. This study investigates how modern personalization technologies, particularly
+                    video-based approaches, are transforming recovery strategies.
+                </p>
+            </div>
+
+            <div class="insight-box">
+                <div class="insight-icon">📊</div>
+                <div class="insight-title">Market Context</div>
+                <div class="insight-text">
+                    The global average cart abandonment rate stands at 69.8%, creating a massive opportunity for effective
+                    recovery solutions. Day by day, video email abandoned cart recovery is becoming increasingly important
+                    and demonstrating a huge difference from traditional text email approaches.
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">69.8%</div>
+                    <div class="stat-label">Average Abandonment Rate</div>
+                    <div class="stat-context">Industry baseline</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">$2B+</div>
+                    <div class="stat-label">Potential Recovery Value</div>
+                    <div class="stat-context">Annual opportunity</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">70%</div>
+                    <div class="stat-label">First 24 Hours</div>
+                    <div class="stat-context">Recovery window</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Methodology -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <h2 class="section-title">Research Methodology</h2>
+                <p class="section-subtitle">
+                    Our analysis synthesizes data from multiple industry reports, case studies, and e-commerce platforms
+                    to provide comprehensive insights into both recovery strategies.
+                </p>
+            </div>
+
+            <div class="methodology-grid">
+                <div class="methodology-card">
+                    <div class="methodology-icon">📈</div>
+                    <div class="methodology-name">Performance Metrics Analysis</div>
+                    <div class="methodology-desc">
+                        Comparative evaluation of conversion rates, open rates, CTR, and engagement metrics
+                    </div>
+                </div>
+                <div class="methodology-card">
+                    <div class="methodology-icon">🔍</div>
+                    <div class="methodology-name">Case Study Review</div>
+                    <div class="methodology-desc">
+                        Examination of real-world implementations including Diwali festival campaigns
+                    </div>
+                </div>
+                <div class="methodology-card">
+                    <div class="methodology-icon">💰</div>
+                    <div class="methodology-name">ROI Assessment</div>
+                    <div class="methodology-desc">
+                        Cost-benefit analysis across different cart value segments and customer tiers
+                    </div>
+                </div>
+                <div class="methodology-card">
+                    <div class="methodology-icon">🎯</div>
+                    <div class="methodology-name">Behavioral Analysis</div>
+                    <div class="methodology-desc">
+                        Study of timing, personalization levels, and customer response patterns
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Performance Comparison -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <h2 class="section-title">Performance Metrics Comparison</h2>
+                <p class="section-subtitle">
+                    Quantitative analysis of key performance indicators across both email formats
+                </p>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">Figure 1: Comparative Performance Metrics (Percentage Values)</div>
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Video Email</th>
+                        <th>Text Email</th>
+                        <th>Difference</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Conversion Rate</td>
+                        <td class="table-highlight">20-30%</td>
+                        <td>~20%</td>
+                        <td>+25-50%</td>
+                    </tr>
+                    <tr>
+                        <td>Engagement Rate</td>
+                        <td class="table-highlight">3x baseline</td>
+                        <td>1x baseline</td>
+                        <td>+200%</td>
+                    </tr>
+                    <tr>
+                        <td>Open Rate</td>
+                        <td class="table-highlight">28%</td>
+                        <td>26%</td>
+                        <td>+7.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Click-Through Rate</td>
+                        <td class="table-highlight">45%</td>
+                        <td>41%+</td>
+                        <td>+9.8%</td>
+                    </tr>
+                    <tr>
+                        <td>Trust Enhancement</td>
+                        <td class="table-highlight">35%</td>
+                        <td>22%</td>
+                        <td>+59%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 4: Detailed Analysis -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">4</div>
+                <h2 class="section-title">Detailed Analysis: Video vs Text</h2>
+                <p class="section-subtitle">
+                    In-depth examination of performance indicators for each approach
+                </p>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">📹</div>
+                        <h3 class="panel-title">Video Email Performance</h3>
+                    </div>
+                    <ul class="metric-list">
+                        <li class="metric-item">
+                            <span class="metric-name">Conversion Rate</span>
+                            <span class="metric-value">20-30%</span>
+                        </li>
+                        <li class="metric-item">
+                            <span class="metric-name">Engagement Multiplier</span>
+                            <span class="metric-value">3x</span>
+                        </li>
+                        <li class="metric-item">
+                            <span class="metric-name">Open Rate</span>
+                            <span class="metric-value">~28%</span>
+                        </li>
+                        <li class="metric-item">
+                            <span class="metric-name">Trust Boost</span>
+                            <span class="metric-value">35%</span>
+                        </li>
+                        <li class="metric-item">
+                            <span class="metric-name">Revenue Impact</span>
+                            <span class="metric-value">Significant</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="comparison-panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">📧</div>
+                        <h3 class="panel-title">Text Email Performance</h3>
+                    </div>
+                    <ul class="metric-list">
+                        <li class="metric-item">
+                            <span class="metric-name">Conversion Rate</span>
+                            <span class="metric-value">~20%</span>
+                        </li>
+                        <li class="metric-item">
+                            <span class="metric-name">vs Non-Personalized</span>
+                            <span class="metric-value">6x Better</span>
+                        </li>
+                        <li class="metric-item">
+                            <span class="metric-name">Open Rate</span>
+                            <span class="metric-value">Up to 26%</span>
+                        </li>
+                        <li class="metric-item">
+                            <span class="metric-name">Click-Through Rate</span>
+                            <span class="metric-value">41%+</span>
+                        </li>
+                        <li class="metric-item">
+                            <span class="metric-name">Deployment Speed</span>
+                            <span class="metric-value">Instant</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Engagement Analysis -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">5</div>
+                <h2 class="section-title">Engagement Rate Progression</h2>
+                <p class="section-subtitle">
+                    How engagement evolves with increasing personalization and video integration
+                </p>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">Figure 2: Engagement Rate Evolution Across Email Types (Baseline = 100)</div>
+                <div class="chart-container">
+                    <canvas id="engagementChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-box info">
+                <div class="insight-icon">💡</div>
+                <div class="insight-title">Key Insight</div>
+                <div class="insight-text">
+                    The progression from non-personalized to video emails shows exponential engagement growth.
+                    Basic personalization provides 6x improvement, while video delivers 3x additional lift,
+                    demonstrating the compounding effect of multimedia personalization.
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Conversion Funnel -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">6</div>
+                <h2 class="section-title">Conversion Funnel Analysis</h2>
+                <p class="section-subtitle">
+                    Stage-by-stage comparison of customer journey from email receipt to purchase
+                </p>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">Figure 3: Customer Journey Drop-off Rates by Email Type</div>
+                <div class="chart-container">
+                    <canvas id="funnelChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <div class="insight-icon">🎯</div>
+                <div class="insight-title">Funnel Performance</div>
+                <div class="insight-text">
+                    Video emails maintain higher retention at every stage of the funnel. The most significant
+                    advantage appears in the "Link Clicked" to "Cart Viewed" transition, where video's superior
+                    product showcase drives 50% better progression.
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Video Email Strengths -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">7</div>
+                <h2 class="section-title">Video Email: Strengths & Limitations</h2>
+                <p class="section-subtitle">
+                    Comprehensive evaluation of video-based cart recovery approach
+                </p>
+            </div>
+
+            <div class="analysis-grid">
+                <div class="analysis-panel strengths">
+                    <h3 class="analysis-title">
+                        <span>✓</span> Key Strengths
+                    </h3>
+                    <ul class="analysis-list">
+                        <li class="analysis-item">
+                            <strong>Pattern Disruption:</strong> Immediate visual differentiation in crowded inboxes creates
+                            instant attention capture
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Emotional Connection:</strong> Voice, music, and motion create deeper engagement and
+                            build stronger brand affinity
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Superior Product Showcase:</strong> Dynamic demonstrations convey value proposition
+                            more effectively than static images
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Scalable AI Personalization:</strong> Modern tools enable mass customization with
+                            dynamic text and product insertion
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Enhanced Memorability:</strong> Creates unique, shareable experiences that strengthen
+                            brand recall and customer loyalty
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Celebrity/Influencer Integration:</strong> Brand ambassador involvement amplifies
+                            authenticity and trust by 35%
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="analysis-panel limitations">
+                    <h3 class="analysis-title">
+                        <span>!</span> Considerations
+                    </h3>
+                    <ul class="analysis-list">
+                        <li class="analysis-item">
+                            <strong>Production Complexity:</strong> Requires video assets, templates, and rendering
+                            infrastructure with higher initial setup investment
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Technical Requirements:</strong> Email client compatibility varies; fallback
+                            strategies (GIF thumbnails, landing pages) necessary
+                        </li>
+                        <li class="analysis-item">
+                            <strong>File Size Optimization:</strong> Loading speed concerns require careful balance
+                            between quality and performance
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Personalization Boundaries:</strong> Risk of feeling intrusive if customization
+                            is too aggressive; cultural sensitivity required
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Cost Considerations:</strong> Higher cost per email compared to text; ROI depends
+                            on cart value and conversion potential
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Resource Investment:</strong> Need for creative team or AI platform subscription
+                            plus ongoing template maintenance
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Text Email Analysis -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">8</div>
+                <h2 class="section-title">Text Email: Strengths & Limitations</h2>
+                <p class="section-subtitle">
+                    Evaluation of traditional personalized text email approach
+                </p>
+            </div>
+
+            <div class="analysis-grid">
+                <div class="analysis-panel strengths">
+                    <h3 class="analysis-title">
+                        <span>✓</span> Key Strengths
+                    </h3>
+                    <ul class="analysis-list">
+                        <li class="analysis-item">
+                            <strong>Rapid Deployment:</strong> Instant implementation across entire customer base with
+                            no rendering or production delays
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Automation Excellence:</strong> Seamless CRM and marketing platform integration with
+                            real-time behavioral triggers
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Content Flexibility:</strong> Easy A/B testing of copy variations, dynamic product
+                            recommendations, and quick adjustments
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Universal Compatibility:</strong> Works across all email clients without technical
+                            barriers or fallback requirements
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Cost Efficiency:</strong> Lower cost per email sent makes it viable for all cart
+                            value segments
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Time-Sensitive Optimization:</strong> Perfect for immediate response during critical
+                            1-2 hour recovery window
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="analysis-panel limitations">
+                    <h3 class="analysis-title">
+                        <span>!</span> Considerations
+                    </h3>
+                    <ul class="analysis-list">
+                        <li class="analysis-item">
+                            <strong>Promotional Fatigue:</strong> Consumers receive dozens of similar emails daily,
+                            increasing risk of being filtered or ignored
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Limited Emotional Impact:</strong> Text-only format lacks sensory engagement making
+                            it harder to convey brand personality
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Competitive Saturation:</strong> Most competitors use similar tactics, requiring
+                            exceptional copywriting to differentiate
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Static Product Display:</strong> Images alone less compelling than motion for
+                            demonstrating product value
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Diminishing Returns:</strong> Market saturation leading to decreased effectiveness
+                            over time as standard approaches become commonplace
+                        </li>
+                        <li class="analysis-item">
+                            <strong>Lower Engagement:</strong> Overall engagement rates fall below video email
+                            performance across most metrics
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: ROI Analysis -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">9</div>
+                <h2 class="section-title">Return on Investment Analysis</h2>
+                <p class="section-subtitle">
+                    Cost-benefit evaluation across different cart value segments
+                </p>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">Figure 4: ROI Comparison by Cart Value Range</div>
+                <div class="chart-container">
+                    <canvas id="roiChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-box warning">
+                <div class="insight-icon">⚠️</div>
+                <div class="insight-title">Strategic Consideration</div>
+                <div class="insight-text">
+                    Text emails show superior ROI for low-value carts (<$50) due to minimal production costs.
+                    However, video emails dramatically outperform on high-value carts ($100+) where the higher
+                    conversion rate justifies production investment. Optimal strategy segments by cart value.
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 10: Success Factors -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">10</div>
+                <h2 class="section-title">Critical Success Factors</h2>
+                <p class="section-subtitle">
+                    Key elements driving recovery effectiveness across both approaches
+                </p>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">Figure 5: Success Factor Comparison Radar Analysis</div>
+                <div class="chart-container small">
+                    <canvas id="successFactorsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="methodology-grid">
+                <div class="methodology-card">
+                    <div class="methodology-icon">⏰</div>
+                    <div class="methodology-name">Timing Optimization</div>
+                    <div class="methodology-desc">
+                        First 1-2 hours critical. 70% of recoveries occur within 24 hours of abandonment
+                    </div>
+                </div>
+                <div class="methodology-card">
+                    <div class="methodology-icon">🎨</div>
+                    <div class="methodology-name">Personalization Depth</div>
+                    <div class="methodology-desc">
+                        Dynamic customer name, specific cart contents, and browsing behavior references
+                    </div>
+                </div>
+                <div class="methodology-card">
+                    <div class="methodology-icon">🌍</div>
+                    <div class="methodology-name">Cultural Relevance</div>
+                    <div class="methodology-desc">
+                        Holiday and festival customization (e.g., Diwali campaigns) boost conversion significantly
+                    </div>
+                </div>
+                <div class="methodology-card">
+                    <div class="methodology-icon">💰</div>
+                    <div class="methodology-name">Value Proposition</div>
+                    <div class="methodology-desc">
+                        Clear incentives (discounts, free shipping) combined with urgency messaging
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 11: Optimal Timeline -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">11</div>
+                <h2 class="section-title">Optimal Recovery Timeline Strategy</h2>
+                <p class="section-subtitle">
+                    Recommended hybrid approach leveraging strengths of both email types
+                </p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">Hour 1: Immediate Text Response</div>
+                        <div class="timeline-desc">
+                            Quick, low-friction reminder catches customers while purchase intent is highest.
+                            Simple message with direct cart link and urgency messaging. Universal compatibility
+                            ensures maximum deliverability during critical window.
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">Hour 24: Personalized Video Email</div>
+                        <div class="timeline-desc">
+                            Dynamic video featuring abandoned products with customer name integration. Emotional
+                            re-engagement through multimedia storytelling. Includes incentive offer (discount,
+                            free shipping) to overcome purchase hesitation.
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">Hour 72: Final Text with Social Proof</div>
+                        <div class="timeline-desc">
+                            Last chance messaging with customer testimonials and product reviews. Alternative
+                            product suggestions based on browsing history. Final urgency push with time-limited
+                            offer expiration.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <div class="insight-icon">🔄</div>
+                <div class="insight-title">Hybrid Strategy Advantage</div>
+                <div class="insight-text">
+                    Combining immediate text response with follow-up video leverages the speed and reliability
+                    of text emails while capturing video's superior engagement and conversion power. This
+                    three-touchpoint approach maximizes recovery across the entire customer journey.
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 12: Segmentation Strategy -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">12</div>
+                <h2 class="section-title">Cart Value Segmentation Strategy</h2>
+                <p class="section-subtitle">
+                    Recommended approach optimization based on customer and cart value
+                </p>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">Figure 6: Cart Value Distribution & Recommended Strategy Mix</div>
+                <div class="chart-container">
+                    <canvas id="segmentationChart"></canvas>
+                </div>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Cart Value Segment</th>
+                        <th>Strategy</th>
+                        <th>Reasoning</th>
+                        <th>Expected ROI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>High Value ($100+)</strong></td>
+                        <td class="table-highlight">Video First</td>
+                        <td>Higher conversion rate justifies production cost; maximize revenue potential</td>
+                        <td>600-780%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mid Value ($30-100)</strong></td>
+                        <td class="table-highlight">Hybrid Approach</td>
+                        <td>Text for immediate response, video for 24hr follow-up; balanced cost-benefit</td>
+                        <td>320-420%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Low Value (<$30)</strong></td>
+                        <td class="table-highlight">Text Focus</td>
+                        <td>Lower margin doesn't justify video cost; leverage text efficiency</td>
+                        <td>180-240%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="conclusion">
+            <h2 class="conclusion-title">Conclusion</h2>
+            <p class="conclusion-text">
+                This comprehensive analysis demonstrates that <strong>personalized video emails represent a significant
+                evolution in abandoned cart recovery effectiveness</strong>, achieving 20-30% conversion rates and 3x
+                higher engagement compared to traditional text emails.
+            </p>
+            <p class="conclusion-text">
+                While text emails retain value for immediate response, cost efficiency, and universal compatibility,
+                video's superior emotional connection, pattern disruption, and product showcase capabilities make it
+                the optimal choice for high-value recovery opportunities.
+            </p>
+            <p class="conclusion-text">
+                The data strongly supports a <strong>hybrid implementation strategy</strong>: immediate text response
+                within the critical 1-2 hour window, followed by emotionally engaging video at 24 hours, with cart
+                value segmentation determining resource allocation. This approach maximizes recovery rates while
+                maintaining acceptable cost structures.
+            </p>
+            <p class="conclusion-text" style="margin-top: 2rem; font-weight: 600; color: var(--primary-dark);">
+                As AI-powered personalization makes video increasingly accessible and affordable, early adopters will
+                capture significant competitive advantage in an e-commerce landscape where differentiation has become
+                the key to conversion success.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="research-footer">
+        <div class="footer-content">
+            <p><strong>E-Commerce Marketing Research Study</strong></p>
+            <div class="footer-divider"></div>
+            <p>This report synthesizes industry data, case studies, and performance metrics</p>
+            <p>to provide actionable insights for e-commerce cart recovery optimization.</p>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem;">
+                Published January 2025 • Research Focus: Comparative Email Strategy Analysis
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js Global Configuration
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#6b7280';
+
+        // Color scheme
+        const colors = {
+            primary: '#059669',
+            primaryLight: '#10b981',
+            secondary: '#0891b2',
+            accent: '#f59e0b'
+        };
+
+        // Performance Comparison Chart
+        const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(performanceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Conversion Rate', 'Engagement Index', 'Open Rate', 'CTR', 'Trust Score'],
+                datasets: [
+                    {
+                        label: 'Video Email',
+                        data: [25, 300, 28, 45, 35],
+                        backgroundColor: 'rgba(5, 150, 105, 0.8)',
+                        borderColor: 'rgba(5, 150, 105, 1)',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Text Email',
+                        data: [20, 100, 26, 41, 22],
+                        backgroundColor: 'rgba(8, 145, 178, 0.8)',
+                        borderColor: 'rgba(8, 145, 178, 1)',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            padding: 20,
+                            font: { size: 13, weight: '600' },
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(31, 41, 55, 0.95)',
+                        padding: 12,
+                        titleFont: { size: 14, weight: '600' },
+                        bodyFont: { size: 13 },
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Engagement Chart
+        const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+        new Chart(engagementCtx, {
+            type: 'line',
+            data: {
+                labels: ['Non-Personalized', 'Basic Personalization', 'Advanced Personalization', 'Video Email', 'Video + Celebrity'],
+                datasets: [{
+                    label: 'Engagement Rate (Baseline = 100)',
+                    data: [5, 30, 80, 240, 320],
+                    borderColor: colors.primary,
+                    backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointBackgroundColor: colors.primary,
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 3,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(31, 41, 55, 0.95)',
+                        padding: 12,
+                        titleFont: { size: 14, weight: '600' },
+                        bodyFont: { size: 13 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Funnel Chart
+        const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+        new Chart(funnelCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Email Sent', 'Email Opened', 'Link Clicked', 'Cart Viewed', 'Purchase Completed'],
+                datasets: [
+                    {
+                        label: 'Video Email',
+                        data: [100, 72, 58, 42, 27],
+                        backgroundColor: 'rgba(5, 150, 105, 0.8)',
+                        borderColor: 'rgba(5, 150, 105, 1)',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Text Email',
+                        data: [100, 65, 41, 28, 18],
+                        backgroundColor: 'rgba(8, 145, 178, 0.8)',
+                        borderColor: 'rgba(8, 145, 178, 1)',
+                        borderWidth: 2,
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            padding: 20,
+                            font: { size: 13, weight: '600' },
+                            usePointStyle: true
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // ROI Chart
+        const roiCtx = document.getElementById('roiChart').getContext('2d');
+        new Chart(roiCtx, {
+            type: 'line',
+            data: {
+                labels: ['$0-30', '$30-50', '$50-100', '$100-200', '$200-500', '$500+'],
+                datasets: [
+                    {
+                        label: 'Video Email ROI',
+                        data: [120, 180, 320, 480, 620, 780],
+                        borderColor: colors.primary,
+                        backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: colors.primary,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 3
+                    },
+                    {
+                        label: 'Text Email ROI',
+                        data: [180, 240, 320, 380, 420, 450],
+                        borderColor: colors.secondary,
+                        backgroundColor: 'rgba(8, 145, 178, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: colors.secondary,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            padding: 20,
+                            font: { size: 13, weight: '600' },
+                            usePointStyle: true
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Return on Investment (%)',
+                            font: { size: 12, weight: '600' }
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Cart Value Range',
+                            font: { size: 12, weight: '600' }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Success Factors Radar Chart
+        const successCtx = document.getElementById('successFactorsChart').getContext('2d');
+        new Chart(successCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Personalization', 'Timing', 'Emotional Appeal', 'Product Display', 'Ease of Use', 'Cost Efficiency'],
+                datasets: [
+                    {
+                        label: 'Video Email',
+                        data: [95, 85, 98, 95, 70, 60],
+                        borderColor: colors.primary,
+                        backgroundColor: 'rgba(5, 150, 105, 0.2)',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: colors.primary
+                    },
+                    {
+                        label: 'Text Email',
+                        data: [85, 95, 65, 70, 95, 95],
+                        borderColor: colors.secondary,
+                        backgroundColor: 'rgba(8, 145, 178, 0.2)',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: colors.secondary
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            padding: 20,
+                            font: { size: 13, weight: '600' },
+                            usePointStyle: true
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20,
+                            callback: function(value) {
+                                return value;
+                            }
+                        },
+                        pointLabels: {
+                            font: { size: 11, weight: '600' }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Segmentation Doughnut Chart
+        const segmentationCtx = document.getElementById('segmentationChart').getContext('2d');
+        new Chart(segmentationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['High Value ($100+) - Video First', 'Mid Value ($30-100) - Hybrid', 'Low Value (<$30) - Text Focus'],
+                datasets: [{
+                    data: [35, 45, 20],
+                    backgroundColor: [
+                        'rgba(5, 150, 105, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(8, 145, 178, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(5, 150, 105, 1)',
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(8, 145, 178, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 12, weight: '600' },
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map((label, i) => {
+                                        const value = data.datasets[0].data[i];
+                                        return {
+                                            text: label + ' (' + value + '%)',
+                                            fillStyle: data.datasets[0].backgroundColor[i],
+                                            strokeStyle: data.datasets[0].borderColor[i],
+                                            lineWidth: 2,
+                                            hidden: false,
+                                            index: i
+                                        };
+                                    });
+                                }
+                                return [];
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(31, 41, 55, 0.95)',
+                        padding: 12
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "6e1473813f8c5ad409bd5f9c5f1e6bf3"
+name = "reviewflow"
+application_url = "https://shopify.dev/apps/default-app-home"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+include_config_on_deploy = true
+
+[webhooks]
+api_version = "2026-01"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_products,write_products,read_orders"
+
+[auth]
+redirect_urls = [
+  "https://b57e352e16c8.ngrok-free.app/dashboard/shopify/callback/",
+  "https://shopify.dev/apps/default-app-home/api/auth"
+]

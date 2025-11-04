@@ -1,0 +1,112 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data Protection — ReviewFlow</title>
+    <meta name="description" content="Data protection, security, retention and processing practices for ReviewFlow.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'images/favicon.svg' %}">
+    <style>
+      body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#fff; color:#0f172a; }
+      .container-narrow{ max-width:900px; }
+      .muted{ color:#475569; }
+      .divider{ border-top:1px solid #e2e8f0; }
+      h1,h2,h3{ letter-spacing:-.2px; }
+      a{ color:#2563eb; text-decoration:none; }
+      a:hover{ text-decoration:underline; }
+      ul{ padding-left:1.2rem; }
+    </style>
+  </head>
+  <body>
+    <nav class="border-bottom" style="background:#ffffffcc; backdrop-filter:blur(12px);">
+      <div class="container container-narrow d-flex align-items-center justify-content-between py-3">
+        <a href="/" class="d-inline-flex align-items-center text-decoration-none">
+          <img src="{% static 'images/logo.svg' %}" alt="ReviewFlow" width="28" height="28" class="me-2"/>
+          <strong class="text-dark">ReviewFlow</strong>
+        </a>
+        <a class="btn btn-primary btn-sm" href="/dashboard/">Dashboard</a>
+      </div>
+    </nav>
+
+    <main class="container container-narrow py-5">
+      <header class="mb-4">
+        <h1 class="h2 mb-2">Data Protection</h1>
+        <p class="muted mb-0">Last updated: {{ last_updated|default:"October 30, 2025" }}</p>
+      </header>
+
+      <section class="mb-4">
+        <p class="muted">This page explains how ReviewFlow protects, stores, and processes your data, including data received from connected platforms such as Shopify, Judge.me, and Instagram.</p>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5">1. Data We Process</h2>
+        <ul class="muted">
+          <li>Store metadata (Shopify) for app installation and configuration.</li>
+          <li>Customer review content (Judge.me) to generate social assets.</li>
+          <li>Connected account identifiers and tokens (Instagram) to publish content you approve.</li>
+        </ul>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5">2. Security</h2>
+        <ul class="muted">
+          <li>Transport security via HTTPS/TLS for all network communications.</li>
+          <li>Credentials stored encrypted at rest. Access is restricted and audited.</li>
+          <li>Least-privilege access for infrastructure and staff.</li>
+        </ul>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5">3. Data Retention</h2>
+        <ul class="muted">
+          <li>Access tokens: retained while integration is active; revoked/removed on disconnect.</li>
+          <li>Generated media and logs: retained for operational needs and analytics; you may request deletion.</li>
+          <li>Backups: short rolling window for disaster recovery.</li>
+        </ul>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5">4. Subprocessors</h2>
+        <p class="muted">We may use third-party providers (e.g., hosting, AI generation, analytics) solely to provide the Service. Contracts include data protection obligations.</p>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5">5. Your Controls</h2>
+        <ul class="muted">
+          <li>Disconnect integrations at any time from settings.</li>
+          <li>Request data export or deletion via support.</li>
+          <li>Configure posting and automation preferences in account settings.</li>
+        </ul>
+      </section>
+
+      <section class="mb-5">
+        <h2 class="h5">6. Contact</h2>
+        <p class="muted">For security reports or data requests, contact us via the dashboard or email support.</p>
+      </section>
+
+      <div class="divider my-4"></div>
+      <p class="muted">See also our <a href="/privacy/">Privacy Policy</a> and <a href="/terms/">Terms of Service</a>.</p>
+    </main>
+
+    <footer class="border-top py-4">
+      <div class="container container-narrow d-flex justify-content-between">
+        <span class="muted">© {{ now|date:"Y" }} ReviewFlow</span>
+        <div class="d-flex gap-3">
+          <a href="/privacy/">Privacy</a>
+          <a href="/data-protection/">Data Protection</a>
+          <a href="/terms/">Terms</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+  </html>
+
+
+
+
+

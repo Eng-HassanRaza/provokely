@@ -4,7 +4,6 @@ Instagram-specific service layer
 import requests
 from urllib.parse import urlencode
 from django.conf import settings
-from core.services import SocialMediaService
 from shared.interfaces import PlatformServiceInterface
 from shared.exceptions import PlatformAPIError
 from django.utils import timezone
@@ -15,7 +14,7 @@ class InstagramService(PlatformServiceInterface):
     """Instagram-specific service implementation"""
     
     def __init__(self):
-        self.core_service = SocialMediaService()
+        pass
     
     def fetch_posts(self, account_id: str, limit: int = 10):
         """Fetch posts from Instagram Graph API using IG user id."""
@@ -38,80 +37,45 @@ class InstagramService(PlatformServiceInterface):
             raise PlatformAPIError("Instagram API request timed out while fetching posts")
         except requests.RequestException as e:
             raise PlatformAPIError(f"Failed to fetch posts: {str(e)}")
-    
+
     def fetch_comments(self, post_id: str):
-        """Fetch comments for a specific Instagram media id."""
-        base_url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{post_id}/comments"
-        params = {
-            'fields': 'id,text,username,timestamp',
-        }
-        if hasattr(self, '_access_token') and self._access_token:
-            params['access_token'] = self._access_token
-        else:
+        """Fetch comments for a specific media (post)."""
+        if not hasattr(self, '_access_token') or not self._access_token:
             raise PlatformAPIError("Access token not set for fetch_comments")
+        url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{post_id}/comments"
+        params = {
+            'access_token': self._access_token,
+            'fields': 'id,text,username,timestamp'
+        }
         try:
-            resp = requests.get(base_url, params=params, timeout=30)
+            resp = requests.get(url, params=params, timeout=30)
             resp.raise_for_status()
-            data = resp.json()
-            return data.get('data', [])
+            return resp.json().get('data', [])
         except requests.Timeout:
             raise PlatformAPIError("Instagram API request timed out while fetching comments")
         except requests.RequestException as e:
             raise PlatformAPIError(f"Failed to fetch comments: {str(e)}")
 
-    def fetch_comment_detail(self, comment_id: str):
-        """Fetch a single comment detail (text, username, media)."""
-        if not hasattr(self, '_access_token') or not self._access_token:
-            raise PlatformAPIError("Access token not set for fetch_comment_detail")
-        url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{comment_id}"
-        params = {
-            'fields': 'id,text,username,media{id}',
-            'access_token': self._access_token,
-        }
-        try:
-            resp = requests.get(url, params=params, timeout=30)
-            resp.raise_for_status()
-            return resp.json()
-        except requests.Timeout:
-            raise PlatformAPIError("Instagram API request timed out while fetching comment detail")
-        except requests.RequestException as e:
-            raise PlatformAPIError(f"Failed to fetch comment detail: {str(e)}")
-    
     def post_comment(self, post_id: str, text: str):
-        """Post a top-level comment to an Instagram media (post)."""
+        """Post a comment to a specific media (post)."""
         if not hasattr(self, '_access_token') or not self._access_token:
             raise PlatformAPIError("Access token not set for post_comment")
+        if not text:
+            raise PlatformAPIError("Comment text is required")
         url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{post_id}/comments"
-        data = {
-            'message': text,
+        params = {
             'access_token': self._access_token,
+            'message': text
         }
         try:
-            resp = requests.post(url, data=data, timeout=30)
+            resp = requests.post(url, data=params, timeout=30)
             resp.raise_for_status()
-            return resp.json()
+            data = resp.json()
+            return data.get('id')
         except requests.Timeout:
             raise PlatformAPIError("Instagram API request timed out while posting comment")
         except requests.RequestException as e:
             raise PlatformAPIError(f"Failed to post comment: {str(e)}")
-
-    def post_reply(self, comment_id: str, text: str):
-        """Post a reply to an existing Instagram comment."""
-        if not hasattr(self, '_access_token') or not self._access_token:
-            raise PlatformAPIError("Access token not set for post_reply")
-        url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{comment_id}/replies"
-        data = {
-            'message': text,
-            'access_token': self._access_token,
-        }
-        try:
-            resp = requests.post(url, data=data, timeout=30)
-            resp.raise_for_status()
-            return resp.json()
-        except requests.Timeout:
-            raise PlatformAPIError("Instagram API request timed out while posting reply")
-        except requests.RequestException as e:
-            raise PlatformAPIError(f"Failed to post reply: {str(e)}")
     
     def get_authorization_url(self, state: str = None, redirect_uri: str | None = None):
         """
@@ -126,7 +90,8 @@ class InstagramService(PlatformServiceInterface):
         params = {
             'client_id': settings.INSTAGRAM_CLIENT_ID,
             'redirect_uri': redirect_uri or settings.INSTAGRAM_REDIRECT_URI,
-            'scope': 'pages_show_list,instagram_basic,instagram_manage_comments,pages_manage_engagement,pages_read_engagement,pages_read_user_content',
+            # Include pages_manage_metadata to ensure page-IG linkage metadata is accessible
+            'scope': 'pages_show_list,instagram_basic,instagram_manage_comments,pages_manage_engagement,pages_read_engagement,pages_read_user_content,pages_manage_metadata,business_management',
             'response_type': 'code',
         }
         
@@ -264,56 +229,112 @@ class InstagramService(PlatformServiceInterface):
         Returns:
             dict: Instagram business account data
         """
-        # First, get user's Facebook Pages (request page access_token)
-        pages_url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/me/accounts"
-        pages_params = {
-            'access_token': access_token,
-            'fields': 'id,name,instagram_business_account,access_token'
-        }
-        
         try:
-            pages_response = requests.get(pages_url, params=pages_params, timeout=30)
+            # First, get businesses the user has access to
+            businesses_url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/me/businesses"
+            businesses_params = {
+                'access_token': access_token,
+                'fields': 'id,name'
+            }
             
+            businesses_response = requests.get(businesses_url, params=businesses_params, timeout=30)
+            businesses_response.raise_for_status()
+            businesses_data = businesses_response.json()
+            
+            # Try each business the user has access to
+            for business in businesses_data.get('data', []):
+                business_id = business['id']
+                
+                # Get pages owned by this business
+                pages_url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{business_id}/owned_pages"
+                pages_params = {
+                    'access_token': access_token,
+                    'fields': 'id,name,access_token,instagram_business_account{id,username,media_count},connected_instagram_account{id,username}'
+                }
+                
+                pages_response = requests.get(pages_url, params=pages_params, timeout=30)
+                pages_response.raise_for_status()
+                pages_data = pages_response.json()
+                
+                # Check each page for Instagram account
+                for page in pages_data.get('data', []):
+                    page_access_token = page.get('access_token') or access_token
+                    ig_node = page.get('instagram_business_account') or page.get('connected_instagram_account')
+                    
+                    if ig_node and isinstance(ig_node, dict) and ig_node.get('id'):
+                        ig_account_id = ig_node['id']
+                        
+                        # Fetch final IG user details
+                        ig_url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{ig_account_id}"
+                        ig_params = {
+                            'access_token': page_access_token,
+                            'fields': 'id,username,media_count,followers_count,follows_count'
+                        }
+                        ig_response = requests.get(ig_url, params=ig_params, timeout=30)
+                        
+                        if ig_response.status_code == 400:
+                            error_data = ig_response.json()
+                            raise PlatformAPIError(
+                                f"Instagram account not accessible. Please ensure your Instagram account is linked to a Facebook Page and is a Business/Creator account. Error: {error_data.get('error', {}).get('message', 'Unknown error')}"
+                            )
+                        
+                        ig_response.raise_for_status()
+                        ig_data = ig_response.json()
+                        
+                        return {
+                            'id': ig_data.get('id'),
+                            'username': ig_data.get('username') or ig_node.get('username'),
+                            'account_type': 'BUSINESS',
+                            'media_count': ig_data.get('media_count', 0),
+                            'followers_count': ig_data.get('followers_count', 0),
+                            'following_count': ig_data.get('follows_count', 0),
+                        }
+            
+            # Fallback: try /me/accounts for direct page access (legacy support)
+            pages_url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/me/accounts"
+            pages_params = {
+                'access_token': access_token,
+                'fields': 'id,name,access_token,instagram_business_account{id,username,media_count},connected_instagram_account{id,username}'
+            }
+            
+            pages_response = requests.get(pages_url, params=pages_params, timeout=30)
             pages_response.raise_for_status()
             pages_data = pages_response.json()
             
-            # Find the first page with an Instagram business account
             for page in pages_data.get('data', []):
-                if 'instagram_business_account' in page:
-                    ig_account_id = page['instagram_business_account']['id']
-                    page_access_token = page.get('access_token') or access_token
-                    
-                    # Get Instagram business account details
+                page_access_token = page.get('access_token') or access_token
+                ig_node = page.get('instagram_business_account') or page.get('connected_instagram_account')
+                
+                if ig_node and isinstance(ig_node, dict) and ig_node.get('id'):
+                    ig_account_id = ig_node['id']
                     ig_url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{ig_account_id}"
-                    # Request only fields guaranteed on IG User for this flow
                     ig_params = {
                         'access_token': page_access_token,
-                        'fields': 'id,username,media_count'
+                        'fields': 'id,username,media_count,followers_count,follows_count'
                     }
-                    
                     ig_response = requests.get(ig_url, params=ig_params, timeout=30)
                     
                     if ig_response.status_code == 400:
-                        # Instagram account not accessible - likely not properly linked
-                        error_data = ig_response.json()
-                        raise PlatformAPIError(f"Instagram account not accessible. Please ensure your Instagram account is properly linked to a Facebook Page and is a Business account. Error: {error_data.get('error', {}).get('message', 'Unknown error')}")
+                        continue
                     
                     ig_response.raise_for_status()
                     ig_data = ig_response.json()
                     
-                    
                     return {
                         'id': ig_data.get('id'),
-                        'username': ig_data.get('username'),
+                        'username': ig_data.get('username') or ig_node.get('username'),
                         'account_type': 'BUSINESS',
                         'media_count': ig_data.get('media_count', 0),
                         'followers_count': ig_data.get('followers_count', 0),
                         'following_count': ig_data.get('follows_count', 0),
                     }
             
-            
-            
-            raise PlatformAPIError("No Instagram business account found linked to Facebook Pages. Please ensure your Instagram account is properly linked to a Facebook Page.")
+            # No Instagram account found
+            raise PlatformAPIError(
+                "No Instagram Business/Creator account found. "
+                "Please ensure: 1) Your Instagram is a Business/Creator account, "
+                "2) It is linked to a Facebook Page, 3) You have Admin access to that Page or Business."
+            )
             
         except requests.Timeout:
             raise PlatformAPIError("Facebook API request timed out. Please check your internet connection and try again.")
@@ -343,6 +364,8 @@ class InstagramService(PlatformServiceInterface):
                 'pages_read_engagement',
                 'pages_show_list',
                 'pages_read_user_content',
+                'pages_manage_metadata',
+                'business_management',
             ]
             missing_scopes = self.validate_permissions(access_token, required_scopes)
             if missing_scopes:
@@ -398,29 +421,74 @@ class InstagramService(PlatformServiceInterface):
         except Exception as e:
             raise PlatformAPIError(f"Failed to refresh user token: {str(e)}")
     
-    def process_post_comments(self, post_id: str):
+    def create_container(self, ig_user_id: str, image_url: str, caption: str):
         """
-        Process all comments for an Instagram post
+        Create a media container for Instagram post
         
         Args:
-            post_id: Instagram post ID
-        
+            ig_user_id: Instagram user ID
+            image_url: URL to the image to post
+            caption: Caption for the post
+            
         Returns:
-            list: Processing results
+            str: Container ID
         """
+        if not hasattr(self, '_access_token') or not self._access_token:
+            raise PlatformAPIError("Access token not set for create_container")
+        
+        url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{ig_user_id}/media"
+        params = {
+            'image_url': image_url,
+            'caption': caption,
+            'access_token': self._access_token
+        }
+        
         try:
-            comments = self.fetch_comments(post_id)
-            results = []
+            resp = requests.post(url, params=params, timeout=30)
+            resp.raise_for_status()
+            data = resp.json()
             
-            for comment in comments:
-                result = self.core_service.process_comment(
-                    comment_text=comment.get('text', ''),
-                    platform='instagram',
-                    external_id=comment.get('id', ''),
-                    post_id=post_id
-                )
-                results.append(result)
+            if 'id' in data:
+                return data['id']
+            else:
+                raise PlatformAPIError(f"Failed to create container: {data}")
+                
+        except requests.Timeout:
+            raise PlatformAPIError("Instagram API request timed out while creating container")
+        except requests.RequestException as e:
+            raise PlatformAPIError(f"Failed to create container: {str(e)}")
+
+    def publish_container(self, ig_user_id: str, container_id: str):
+        """
+        Publish the media container to Instagram
+        
+        Args:
+            ig_user_id: Instagram user ID
+            container_id: Container ID from create_container
             
-            return results
-        except Exception as e:
-            raise PlatformAPIError(f"Failed to process Instagram post comments: {str(e)}")
+        Returns:
+            str: Media ID of the published post
+        """
+        if not hasattr(self, '_access_token') or not self._access_token:
+            raise PlatformAPIError("Access token not set for publish_container")
+        
+        url = f"https://graph.facebook.com/{settings.FACEBOOK_GRAPH_VERSION}/{ig_user_id}/media_publish"
+        params = {
+            'creation_id': container_id,
+            'access_token': self._access_token
+        }
+        
+        try:
+            resp = requests.post(url, params=params, timeout=30)
+            resp.raise_for_status()
+            data = resp.json()
+            
+            if 'id' in data:
+                return data['id']
+            else:
+                raise PlatformAPIError(f"Failed to publish container: {data}")
+                
+        except requests.Timeout:
+            raise PlatformAPIError("Instagram API request timed out while publishing container")
+        except requests.RequestException as e:
+            raise PlatformAPIError(f"Failed to publish container: {str(e)}")

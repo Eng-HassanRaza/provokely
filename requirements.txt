@@ -10,9 +10,6 @@ django-cors-headers>=4.3.0
 # Filtering support
 django-filter>=23.5
 
-# API Documentation
-drf-yasg>=1.21.7
-
 # Machine Learning / AI
 # transformers>=4.36.0  # For sentiment analysis - uncomment when ready
 # torch>=2.1.0  # For sentiment analysis - uncomment when ready
@@ -22,8 +19,8 @@ requests>=2.31.0
 pyfcm>=1.5.4
 
 # Background Tasks
-# celery>=5.3.0  # Uncomment when implementing background tasks
-# redis>=5.0.0  # Uncomment when implementing caching/celery
+celery>=5.3.0
+redis>=5.0.0
 
 # Database
 # psycopg2-binary>=2.9.9  # For PostgreSQL - uncomment for production
@@ -48,3 +45,4 @@ pytest-django>=4.5.2
 # black>=23.12.0  # Code formatter
 # flake8>=6.1.0  # Linter
 # isort>=5.13.0  # Import sorter
+django-hosts
