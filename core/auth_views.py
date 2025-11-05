@@ -42,7 +42,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, f'Welcome to Provokely, {user.username}!')
+            messages.success(request, f'Welcome to Abandoned Revenue, {user.username}!')
             return redirect('dashboard:home')
     else:
         form = UserCreationForm()

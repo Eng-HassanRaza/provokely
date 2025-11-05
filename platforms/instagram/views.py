@@ -372,13 +372,13 @@ def mobile_oauth_callback(request):
     """OAuth callback for mobile apps: exchanges code, binds account, then deep-links back."""
     error = request.GET.get('error')
     if error:
-        return HttpResponse("<script>location.href='provokely://oauth/instagram?status=error&reason="+error+"';</script>")
+        return HttpResponse("<script>location.href='abandonedrevenue://oauth/instagram?status=error&reason="+error+"';</script>")
     state = request.GET.get('state')
     code = request.GET.get('code')
     if not state or state != request.session.get('ig_mobile_state'):
-        return HttpResponse("<script>location.href='provokely://oauth/instagram?status=error&reason=invalid_state';</script>")
+        return HttpResponse("<script>location.href='abandonedrevenue://oauth/instagram?status=error&reason=invalid_state';</script>")
     if not code:
-        return HttpResponse("<script>location.href='provokely://oauth/instagram?status=error&reason=missing_code';</script>")
+        return HttpResponse("<script>location.href='abandonedrevenue://oauth/instagram?status=error&reason=missing_code';</script>")
     try:
         service = InstagramService()
         token_data = service.exchange_code_for_token(code, redirect_uri=settings.INSTAGRAM_MOBILE_REDIRECT_URI)
@@ -395,9 +395,9 @@ def mobile_oauth_callback(request):
                 'is_active': True,
             }
         )
-        return HttpResponse("<script>location.href='provokely://oauth/instagram?status=success';</script>")
+        return HttpResponse("<script>location.href='abandonedrevenue://oauth/instagram?status=success';</script>")
     except Exception as e:
-        return HttpResponse("<script>location.href='provokely://oauth/instagram?status=error&reason=server';</script>")
+        return HttpResponse("<script>location.href='abandonedrevenue://oauth/instagram?status=error&reason=server';</script>")
 
 
 from django.http import HttpResponse

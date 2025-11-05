@@ -1,5 +1,5 @@
 """
-Views for ReviewSocial subdomain (reviewsocial.provokely.com)
+Views for ReviewSocial subdomain (reviewsocial.abandonedrevenue.com)
 Shopify app landing page and related views
 """
 

@@ -1,6 +1,6 @@
 """
-URL configuration for base domain (provokely.com)
-Studio/Hub landing page showing all Provokely products
+URL configuration for base domain (abandonedrevenue.com)
+Studio/Hub landing page showing all Abandoned Revenue products
 """
 
 from django.contrib import admin
@@ -11,7 +11,7 @@ from django.conf.urls.static import static
 
 
 def studio_home(request):
-    """Provokely studio hub landing page"""
+    """Abandoned Revenue studio hub landing page"""
     return render(request, 'landing/studio.html')
 
 

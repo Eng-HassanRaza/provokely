@@ -1,5 +1,5 @@
 """
-URL configuration for ReviewSocial subdomain
+URL configuration for ReviewSocial subdomain (reviewsocial.abandonedrevenue.com)
 """
 
 from django.urls import path, include
