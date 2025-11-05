@@ -28,8 +28,9 @@ proc_name = "provokely"
 # Server mechanics
 daemon = False
 pidfile = "/var/run/gunicorn/provokely.pid"
-user = "ubuntu"
-group = "ubuntu"
+# user and group are handled by systemd
+# user = "ubuntu"
+# group = "ubuntu"
 tmp_upload_dir = None
 
 # SSL (will be configured later with Let's Encrypt)

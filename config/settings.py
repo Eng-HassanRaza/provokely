@@ -29,7 +29,7 @@ load_dotenv(dotenv_path=str(BASE_DIR / '.env'))
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-e&v4r$(vyzply+3#oe3=e#hfw151xbgyg3p#=+&7^jvwf#@qog')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.abandonedrevenue.com,.ngrok-free.app').split(',')
 

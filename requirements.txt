@@ -4,6 +4,9 @@ Django>=5.0.6
 # Django REST Framework
 djangorestframework>=3.14.0
 
+# WSGI server
+gunicorn>=23.0.0
+
 # CORS Headers for mobile app support
 django-cors-headers>=4.3.0
 
