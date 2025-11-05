@@ -26,10 +26,11 @@ urlpatterns = [
     path('lead/capture/', views.lead_capture, name='lead_capture'),
     path('contact/submit/', views.contact_submit, name='contact_submit'),
     
-    # Legal pages
-    path('privacy/', views.privacy, name='privacy'),
-    path('terms/', views.terms, name='terms'),
+    # Legal & Support pages
+    path('privacy-policy/', views.privacy, name='privacy'),
+    path('terms-of-service/', views.terms, name='terms'),
     path('data-deletion/', views.data_deletion, name='data_deletion'),
+    path('support/', views.support, name='support'),
     
     # Dashboard
     path('dashboard/', include('core.dashboard_urls')),

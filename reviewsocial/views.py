@@ -31,15 +31,20 @@ def contact_submit(request):
 
 
 def privacy(request):
-    """Privacy policy page"""
-    return render(request, 'landing/privacy.html')
+    """Privacy policy page - Shopify compliant"""
+    return render(request, 'reviewsocial/privacy_policy.html')
 
 
 def terms(request):
-    """Terms of service page"""
-    return render(request, 'landing/terms.html')
+    """Terms of service page - Shopify compliant"""
+    return render(request, 'reviewsocial/terms_of_service.html')
 
 
 def data_deletion(request):
-    """Data deletion policy page (required for Meta apps)"""
-    return render(request, 'landing/data_deletion.html')
+    """Data deletion policy page (required for Meta/Shopify apps)"""
+    return render(request, 'reviewsocial/data_deletion.html')
+
+
+def support(request):
+    """Support page with FAQ and troubleshooting"""
+    return render(request, 'reviewsocial/support.html')

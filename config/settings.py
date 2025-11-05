@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-e&v4r$(vyzply+3#oe3=e#hfw1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.abandonedrevenue.com,.ngrok-free.app').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.abandonedrevenue.com,.ngrok-free.app,socialreview.localhost').split(',')
 
 # CSRF trusted origins (required for HTTPS tunnels like ngrok)
 # Provide as comma-separated list, including scheme, e.g.:
